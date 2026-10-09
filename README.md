@@ -1,25 +1,63 @@
-# CODING AGENTS: READ THIS FIRST
+# North Bay Kayaking — booking website + admin panel
 
-This is a **handoff bundle** from Claude Design (claude.ai/design).
+Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking Wireframes.dc.html`, design brief: `chats/chat1.md`, original handoff notes: `project/HANDOFF-README.md`).
 
-A user mocked up designs in HTML/CSS/JS using an AI design tool, then exported this bundle so a coding agent can implement the designs for real.
+- **Website** (`/`): mobile-first ad landing page. It combines the story scroll from 1a with the "book in 60 seconds" widget from 1b, plus a WhatsApp button, session cards you can deep-link to, and a comparison table.
+- **Booking flow** (2a–2d): a bottom sheet with session, date and slot → guests and add-ons → details and advance payment → confirmation page (report time, map, add to calendar, WhatsApp, and the ad conversion event).
+- **Admin panel** (`/admin`), 3a–3f:
+  - **Bookings:** filters, stats, CSV export and walk-ins.
+  - **Booking detail drawer:** WhatsApp, reschedule, check-in, balance paid, cancel and refund.
+  - **Calendar & slots:** close slots for weather and see which guests to notify.
+  - **Sessions & prices:** also covers add-ons, promo codes and booking rules.
+  - **Photos:** upload, place on the site, show or hide, drag to reorder.
+  - **Reviews:** pending, approve, feature, add your own.
+  - **FAQ & text, Settings, and Jetty check-in:** the jetty screen is the phone view.
 
-## What you should do — IMPORTANT
+## Run it
 
-**Read the chat transcripts first.** There are 1 chat transcript(s) in `chats/`. The transcripts show the full back-and-forth between the user and the design assistant — they tell you **what the user actually wants** and **where they landed** after iterating. Don't skip them. The final HTML files are the output, but the chat is where the intent lives.
+Requires Node.js 22.5+ (uses the built-in `node:sqlite`, so there is no database server to install).
 
-**Read `project/Kayak Booking Wireframes.dc.html` in full.** The user had this file open when they triggered the handoff, so it's almost certainly the primary design they want built. Read it top to bottom — don't skim. Then **follow its imports**: open every file it pulls in (shared components, CSS, scripts) so you understand how the pieces fit together before you start implementing.
+```bash
+npm install
+ADMIN_PASSWORD='choose-a-strong-one' npm start   # http://localhost:3000 and /admin
+npm run seed:demo   # optional: sample bookings + reviews (don't run on the live site)
+npm test
+```
 
-**If anything is ambiguous, ask the user to confirm before you start implementing.** It's much cheaper to clarify scope up front than to build the wrong thing.
+If `ADMIN_PASSWORD` isn't set on first run, a random password is printed to the console. You can change it later in Admin → Settings.
 
-## About the design files
+Data lives in `data/` (SQLite file + uploaded photos). Back this folder up. Set `DATA_DIR` to store it elsewhere.
 
-The design medium is **HTML/CSS/JS** — these are prototypes, not production code. Your job is to **recreate them pixel-perfectly** in whatever technology makes sense for the target codebase (React, Vue, native, whatever fits). Match the visual output; don't copy the prototype's internal structure unless it happens to fit.
+## Environment variables
 
-**Don't render these files in a browser or take screenshots unless the user asks you to.** Everything you need — dimensions, colors, layout rules — is spelled out in the source. Read the HTML and CSS directly; a screenshot won't tell you anything they don't.
+| Variable | Purpose |
+|---|---|
+| `PORT` | default 3000 |
+| `ADMIN_PASSWORD` | first-run admin password |
+| `DATA_DIR` | where the database and uploads are stored (default `./data`) |
+| `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET` | optional; can also be entered in Admin → Settings |
+| `TRUST_PROXY=1` | set when running behind nginx/Cloudflare so HTTPS cookies and rate limits work |
 
-## Bundle contents
+## Payments
 
-- `README.md` — this file
-- `chats/` — conversation transcripts (read these!)
-- `project/` — the `Kayaking booking site for Andaman` project files (HTML prototypes, assets, components)
+Without Razorpay keys the site runs in **test mode**: a banner says so and checkout simulates the payment. Add `rzp_test_…` keys in Admin → Settings to try real Razorpay Checkout, then switch to live keys. Payments are verified on the server by signature. Refunds from the cancel dialog go through Razorpay when the payment was made online.
+
+## Ads and tracking
+
+- Deep links: `/#mangrove` scrolls to and highlights a session card; `/?book=glass-bottom` opens the booking sheet with that session selected.
+- UTM/gclid/fbclid parameters are saved on each booking and included in the CSV export.
+- Paste your Google tag / Meta Pixel into Admin → Settings → Ad tracking. The confirmation page pushes a `booking_confirmed` dataLayer event, fires Meta `Purchase`, and runs your conversion snippet once per booking.
+
+## Not automated (yet)
+
+WhatsApp messages (confirmation, reschedule, weather cancellation, review link) open WhatsApp with the text pre-filled, and staff press send. Sending them automatically needs a WhatsApp Business API provider such as Interakt, Gupshup or Twilio.
+
+## Layout
+
+```
+server/   Express app: db.js (schema + seed), booking.js (availability/pricing), views.js (server-rendered pages),
+          public-routes.js, admin-routes.js, auth.js, payments.js (Razorpay), media.js (uploads + WebP compression)
+public/   site CSS/JS (tokens.css = design-system tokens), booking sheet in js/book.js
+admin/    admin SPA (no build step)
+test/     API tests (node --test)
+```

@@ -1,0 +1,23 @@
+{
+  "name": "northbay-kayak",
+  "version": "1.0.0",
+  "description": "Kayak booking website + admin panel for North Bay Island, Andaman",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch server/index.js",
+    "seed:demo": "node --disable-warning=ExperimentalWarning server/seed-demo.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.4.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.35.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=22.5"
+  }
+}

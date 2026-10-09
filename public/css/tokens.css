@@ -1,0 +1,243 @@
+/* Design tokens from the Svam Realty design system (project/_ds/…/tokens), combined into one file
+   so the page loads a single stylesheet. Fonts are loaded with a <link> tag in the page head. */
+:root {
+  /* ---- Terracotta (PRIMARY) ---- */
+  --terracotta-700: #9E4730;
+  --terracotta-600: #C25B3C;
+  --terracotta-500: #D97757; /* primary brand color */
+  --terracotta-400: #E29478;
+  --terracotta-300: #EBB29E;
+  --terracotta-200: #F3D2C5;
+  --terracotta-100: #F9E8E0;
+  --terracotta-50:  #FCF4EF;
+
+  /* ---- Warm charcoal (ink) ---- */
+  --charcoal-900: #14110F;
+  --charcoal-800: #1A1715; /* brand ink */
+  --charcoal-700: #2A2521;
+  --charcoal-600: #423B35;
+  --charcoal-500: #5C534B;
+  --charcoal-400: #847A70;
+  --charcoal-300: #999386; /* brand warm grey ("REALTY") */
+  --charcoal-200: #BDB7AC;
+  --charcoal-100: #DAD5CB;
+
+  /* ---- Sand / cream (paper) ---- */
+  --sand-500: #C9C1AE;
+  --sand-400: #DBD4C3;
+  --sand-300: #E8E2D5;
+  --sand-200: #F3EFE6; /* brand cream surface */
+  --sand-100: #F8F5EE;
+  --sand-50:  #FCFAF5;
+  --white:    #FFFFFF;
+
+  /* ---- Sage / olive (secondary, from patterns) ---- */
+  --sage-700: #3A4A1B;
+  --sage-600: #455821; /* brand dark sage */
+  --sage-500: #7F8D34; /* brand olive */
+  --sage-400: #9BA85A;
+  --sage-300: #BCC68C;
+  --sage-200: #D9DFBF;
+  --sage-100: #EEF1E2;
+
+  /* ---- Functional accents ---- */
+  --success: #5A7A2E;
+  --warning: #C98A2E;
+  --danger:  #B4452F;
+  --info:    #5C6E8C;
+
+  /* ============================================================
+     Semantic aliases — reference these in components, not the
+     primitives above.
+     ============================================================ */
+
+  /* Text */
+  --text-strong:   var(--charcoal-900);
+  --text-body:     var(--charcoal-800);
+  --text-muted:    var(--charcoal-400);
+  --text-subtle:   var(--charcoal-300);
+  --text-inverse:  var(--sand-100);
+  --text-brand:    var(--terracotta-500);
+  --text-on-brand: var(--white);
+
+  /* Surfaces */
+  --surface-page:    var(--sand-100);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--sand-200);
+  --surface-raised:  var(--white);
+  --surface-inverse: var(--charcoal-800);
+  --surface-brand:   var(--terracotta-500);
+  --surface-brand-soft: var(--terracotta-100);
+  --surface-sage-soft:  var(--sage-100);
+
+  /* Borders / lines */
+  --border-subtle:  var(--sand-300);
+  --border-default: var(--sand-400);
+  --border-strong:  var(--charcoal-200);
+  --border-brand:   var(--terracotta-500);
+  --border-inverse: var(--charcoal-600);
+
+  /* Interactive (terracotta) */
+  --accent:          var(--terracotta-500);
+  --accent-hover:    var(--terracotta-600);
+  --accent-active:   var(--terracotta-700);
+  --accent-soft:     var(--terracotta-100);
+  --accent-contrast: var(--white);
+
+  /* Focus ring */
+  --focus-ring: var(--terracotta-400);
+}
+
+:root {
+  /* ---- Families ---- */
+  --font-display:   'Marcellus', 'Cormorant Garamond', Georgia, serif;
+  --font-serif:     'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans:      'Mulish', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:      var(--font-sans);
+
+  /* ---- Weights ---- */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extra:    800;
+
+  /* ---- Fluid display sizes (real-estate hero / headings) ---- */
+  --text-display-xl: clamp(3.5rem, 6vw, 6rem);    /* 56–96 */
+  --text-display-lg: clamp(2.75rem, 4.5vw, 4.25rem);
+  --text-display-md: clamp(2.25rem, 3.5vw, 3.25rem);
+  --text-display-sm: clamp(1.875rem, 2.6vw, 2.5rem);
+
+  /* ---- Static UI scale ---- */
+  --text-h1:   2.5rem;   /* 40 */
+  --text-h2:   2rem;     /* 32 */
+  --text-h3:   1.5rem;   /* 24 */
+  --text-h4:   1.25rem;  /* 20 */
+  --text-lg:   1.125rem; /* 18 */
+  --text-base: 1rem;     /* 16 */
+  --text-sm:   0.875rem; /* 14 */
+  --text-xs:   0.75rem;  /* 12 */
+  --text-2xs:  0.6875rem;/* 11 — eyebrows / overlines */
+
+  /* ---- Line heights ---- */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.08em;
+  --tracking-wider:  0.18em;  /* "REALTY"-style overlines */
+  --tracking-display:0.02em;
+}
+
+:root {
+  --space-0:   0;
+  --space-1:   0.25rem;  /* 4  */
+  --space-2:   0.5rem;   /* 8  */
+  --space-3:   0.75rem;  /* 12 */
+  --space-4:   1rem;     /* 16 */
+  --space-5:   1.5rem;   /* 24 */
+  --space-6:   2rem;     /* 32 */
+  --space-7:   2.5rem;   /* 40 */
+  --space-8:   3rem;     /* 48 */
+  --space-9:   4rem;     /* 64 */
+  --space-10:  5rem;     /* 80 */
+  --space-11:  6rem;     /* 96 */
+  --space-12:  8rem;     /* 128 */
+
+  /* Layout */
+  --container-max: 1240px;
+  --container-wide: 1440px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);   /* @kind spacing */
+  --section-y: clamp(4rem, 8vw, 8rem);   /* @kind spacing */
+}
+
+:root {
+  /* ---- Corner radius ---- */
+  --radius-none: 0;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;   /* cards */
+  --radius-xl:   16px;   /* brand-pattern panels use rx:16 */
+  --radius-2xl:  24px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows (warm-tinted, charcoal base, never blue) ---- */
+  --shadow-xs:  0 1px 2px rgba(26, 23, 21, 0.06);
+  --shadow-sm:  0 2px 6px rgba(26, 23, 21, 0.07);
+  --shadow-md:  0 6px 18px rgba(26, 23, 21, 0.09);
+  --shadow-lg:  0 16px 40px rgba(26, 23, 21, 0.12);
+  --shadow-xl:  0 28px 70px rgba(26, 23, 21, 0.16);
+  --shadow-focus: 0 0 0 3px rgba(217, 119, 87, 0.35);
+
+  /* ---- Borders ---- */
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);    /* @kind other */
+  --dur-fast:   140ms;   /* @kind other */
+  --dur-base:   220ms;   /* @kind other */
+  --dur-slow:   420ms;   /* @kind other */
+  --dur-slower: 700ms;   /* @kind other */
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+  margin: 0 0 0.5em;
+}
+
+p { margin: 0 0 1em; }
+a { color: var(--text-brand); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+::selection { background: var(--terracotta-200); color: var(--charcoal-900); }
+
+/* Brand overline — the wide-tracked caps treatment of "REALTY" */
+.ds-overline {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Display heading helper */
+.ds-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+}
+
+/* Editorial serif helper */
+.ds-serif {
+  font-family: var(--font-serif);
+}
+
