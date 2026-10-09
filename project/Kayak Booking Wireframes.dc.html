@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/svam-realty-design-system-024c9dba-01eb-4e0a-8f4d-2f3a94608d1e/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/svam-realty-design-system-024c9dba-01eb-4e0a-8f4d-2f3a94608d1e/tokens/colors.css">
+<link rel="stylesheet" href="_ds/svam-realty-design-system-024c9dba-01eb-4e0a-8f4d-2f3a94608d1e/tokens/typography.css">
+<link rel="stylesheet" href="_ds/svam-realty-design-system-024c9dba-01eb-4e0a-8f4d-2f3a94608d1e/styles.css">
+<script src="_ds/svam-realty-design-system-024c9dba-01eb-4e0a-8f4d-2f3a94608d1e/_ds_bundle.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+<style>
+body{margin:0;background:#F3EFE6;font-family:Mulish,system-ui,sans-serif;color:#1A1715}
+a{color:#D97757}a:hover{color:#b85d40}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Mulish,sans-serif;color:#1a1a1a}
+.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px;width:360px}
+.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 12px/1.3 Mulish,sans-serif;color:rgba(0,0,0,.6)}
+.dv-card{max-width:100%;background:#fff;border:2px solid #1A1715;border-radius:22px;overflow:hidden;position:relative}
+.dv-opt:target .dv-oid{background:#D97757;color:#fff}
+.dv-next{margin:24px 0 0;font:12px/1.5 Mulish,sans-serif;color:rgba(0,0,0,.55)}
+.ph{background:repeating-linear-gradient(45deg,#ece7dc 0 2px,#faf8f3 2px 11px);border:1.5px solid #1A1715;display:flex;align-items:center;justify-content:center;text-align:center;font:600 10px/1.3 Mulish;color:#6b655c;letter-spacing:.06em;text-transform:uppercase;padding:6px}
+.sec{padding:16px;border-bottom:1.5px dashed #cfc8b9;display:flex;flex-direction:column;gap:10px}
+.h1{font:400 26px/1.08 Marcellus,serif;letter-spacing:.02em}
+.h2{font:400 18px/1.15 Marcellus,serif}
+.ov{white-space:nowrap;font:700 9.5px Mulish;letter-spacing:.18em;text-transform:uppercase;color:#6b655c}
+.ln{height:7px;background:#ddd6c8;border-radius:4px}
+.bx{border:1.5px solid #1A1715;border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:6px}
+.row{display:flex;gap:8px;align-items:center}
+.cta{background:#D97757;color:#fff;border-radius:4px;padding:12px;text-align:center;font:800 13px Mulish;border:1.5px solid #1A1715}
+.cta2{background:#fff;color:#1A1715;border-radius:4px;padding:11px;text-align:center;font:700 12px Mulish;border:1.5px solid #1A1715}
+.chip{border:1.5px solid #1A1715;border-radius:999px;padding:4px 10px;font:600 10.5px Mulish;white-space:nowrap}
+.chip.on{background:#1A1715;color:#fff}
+.sm{font:400 11px/1.45 Mulish;color:#4a453e}
+.price{font:400 17px Marcellus,serif}
+.bar{position:sticky;bottom:0;background:#fff;border-top:2px solid #1A1715;padding:10px 12px;display:flex;gap:8px;align-items:center}
+.note{font:600 17px/1.2 Caveat,cursive;color:#b5502f}
+.notes{display:flex;flex-direction:column;gap:4px;padding:4px 4px 0}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1.5px solid #1A1715}
+.logo{font:400 14px Marcellus;letter-spacing:.12em}
+.ic{width:22px;height:22px;border:1.5px solid #1A1715;border-radius:50%;flex:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.field{border:1.5px solid #1A1715;border-radius:4px;padding:9px 10px;font:400 11px Mulish;color:#8a8478}
+.lbl{font:700 10px Mulish;letter-spacing:.04em;margin-bottom:-2px}
+.steps{display:flex;gap:4px}.steps i{flex:1;height:4px;background:#ddd6c8;border-radius:2px}.steps i.on{background:#D97757}
+</style>
+</helmet>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname">Admin panel — bookings, photos, reviews, sessions (desktop + phone)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a" style="width:760px"><div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Bookings — list, filters, today's manifest</div>
+<div class="dv-card" style="display:grid;grid-template-columns:150px 1fr;border-radius:10px">
+<div style="border-right:1.5px solid #1A1715;padding:14px 12px;display:flex;flex-direction:column;gap:10px;background:#faf8f3">
+<span class="logo">LOGO · ADMIN</span>
+<b class="sm" style="background:#1A1715;color:#fff;padding:6px 8px;border-radius:4px">Bookings</b>
+<span class="sm" style="padding:0 8px">Calendar &amp; slots</span><span class="sm" style="padding:0 8px">Sessions &amp; prices</span><span class="sm" style="padding:0 8px">Photos</span><span class="sm" style="padding:0 8px">Reviews</span><span class="sm" style="padding:0 8px">FAQ &amp; text</span><span class="sm" style="padding:0 8px">Settings</span>
+</div>
+<div style="display:flex;flex-direction:column">
+<div class="nav"><span class="h2">Bookings</span><div class="row"><span class="cta2" style="padding:7px 12px">Export CSV</span><span class="cta" style="padding:7px 12px">+ Add walk-in</span></div></div>
+<div class="sec"><div class="grid3" style="grid-template-columns:repeat(4,1fr)"><div class="bx"><span class="sm">Today</span><b class="price">18 guests</b></div><div class="bx"><span class="sm">This week</span><b class="price">74</b></div><div class="bx"><span class="sm">Advance collected</span><b class="price">₹XX,XXX</b></div><div class="bx"><span class="sm">Due at jetty</span><b class="price">₹XX,XXX</b></div></div></div>
+<div class="sec"><div class="row" style="flex-wrap:wrap"><div class="field" style="flex:1;min-width:140px">Search name / phone / ID</div><span class="chip on">Today</span><span class="chip">Tomorrow</span><span class="chip">Date range ▾</span><span class="chip">Session ▾</span><span class="chip">Status ▾</span></div>
+<div class="bx" style="padding:0;gap:0">
+<div style="display:grid;grid-template-columns:70px 1.3fr .8fr .9fr .6fr .9fr .8fr;gap:6px;padding:8px 10px;border-bottom:1.5px solid #1A1715;font:700 10px Mulish;letter-spacing:.04em"><span>ID</span><span>Guest</span><span>Slot</span><span>Session</span><span>Pax</span><span>Paid</span><span>Status</span></div>
+<sc-for list="{{ bookings }}" as="b" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:70px 1.3fr .8fr .9fr .6fr .9fr .8fr;gap:6px;padding:8px 10px;border-bottom:1px solid #e2dccf;font:400 11px Mulish;align-items:center"><span>{{ b.id }}</span><span><b>{{ b.name }}</b><br><span style="color:#6b655c">{{ b.phone }}</span></span><span>{{ b.slot }}</span><span>{{ b.session }}</span><span>{{ b.pax }}</span><span>{{ b.paid }}</span><span class="chip" style="justify-self:start">{{ b.status }}</span></div></sc-for>
+</div></div>
+</div></div>
+<div class="notes"><div class="note">→ Default view = today, grouped by slot → doubles as guide manifest</div><div class="note">→ "Add walk-in" blocks seats so online can't overbook</div></div></div>
+
+<div class="dv-opt" id="3b" style="width:360px"><div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Booking detail (side drawer)</div>
+<div class="dv-card" style="border-radius:10px">
+<div class="nav"><span class="h2">NB-1042</span><span class="sm">✕</span></div>
+<div class="sec"><div class="row" style="justify-content:space-between"><b class="sm">Rahul Mehta</b><span class="chip">Advance paid</span></div><span class="sm">+91 98XXX XXXXX · rahul@…</span>
+<div class="grid2"><div class="cta2" style="padding:8px">WhatsApp</div><div class="cta2" style="padding:8px">Call</div></div></div>
+<div class="sec"><div class="bx"><span class="sm">Mangrove trail · Sat 14 Nov · 9:30</span><span class="sm">2 adults · 0 kids · Double kayak</span><span class="sm">Add-ons: GoPro, Hotel pickup (Hotel Sea Shell)</span></div>
+<div class="bx"><div class="row" style="justify-content:space-between"><span class="sm">Total</span><b class="sm">₹X,XXX</b></div><div class="row" style="justify-content:space-between"><span class="sm">Paid · UPI · Razorpay ref</span><b class="sm">₹X,XXX</b></div><div class="row" style="justify-content:space-between"><span class="sm">Balance at jetty</span><b class="sm">₹X,XXX</b></div></div>
+<div class="lbl">Internal note</div><div class="field">e.g. first-timers, wants photos</div></div>
+<div class="sec"><div class="grid2"><div class="cta2">Reschedule</div><div class="cta2">Mark checked-in</div><div class="cta2">Mark balance paid</div><div class="cta2" style="color:#a33">Cancel / refund</div></div></div>
+</div>
+<div class="notes"><div class="note">→ Reschedule auto-sends new time on WhatsApp</div><div class="note">→ Weather-cancel whole slot from Calendar</div></div></div>
+
+<div class="dv-opt" id="3c" style="width:560px"><div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Photos — upload &amp; place on site</div>
+<div class="dv-card" style="border-radius:10px">
+<div class="nav"><span class="h2">Photos</span><span class="cta" style="padding:7px 12px">Upload</span></div>
+<div class="sec"><div class="ph" style="height:80px;border-style:dashed">Drag photos / videos here · auto-compressed for fast mobile load</div>
+<div class="row"><span class="chip on">All</span><span class="chip">Hero</span><span class="chip">Gallery</span><span class="chip">Session cards</span><span class="chip">Hidden</span></div></div>
+<div class="sec"><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+<sc-for list="{{ photos }}" as="p" hint-placeholder-count="8"><div class="bx" style="padding:5px;gap:4px"><div class="ph" style="height:64px">⋮⋮ img</div><span class="chip" style="font-size:9.5px;align-self:flex-start">{{ p }}</span><div class="row" style="justify-content:space-between"><span class="sm">Show</span><span style="width:22px;height:12px;border-radius:6px;background:#455821;border:1.5px solid #1A1715"></span></div></div></sc-for>
+</div><span class="sm">Drag ⋮⋮ to reorder · click to set alt text &amp; placement</span></div>
+</div>
+<div class="notes"><div class="note">→ Each photo tagged to a slot on the site — no layout editing needed</div><div class="note">→ Hero accepts a short video loop</div></div></div>
+
+<div class="dv-opt" id="3d" style="width:560px"><div class="dv-olabel"><a class="dv-oid" href="#3d">3d</a>Reviews — add, approve, feature</div>
+<div class="dv-card" style="border-radius:10px">
+<div class="nav"><span class="h2">Reviews</span><div class="row"><span class="cta2" style="padding:7px 12px">Send review link</span><span class="cta" style="padding:7px 12px">+ Add review</span></div></div>
+<div class="sec"><div class="row"><span class="chip">Pending (3)</span><span class="chip on">Live (42)</span><span class="chip">Hidden</span><span class="sm" style="margin-left:auto">Avg ★ 4.9 shown on site</span></div>
+<sc-for list="{{ reviews }}" as="r" hint-placeholder-count="3"><div class="bx row" style="align-items:flex-start"><div class="ph" style="width:48px;height:48px;border-radius:50%;padding:0">pic</div><div style="flex:1;display:flex;flex-direction:column;gap:5px"><div class="row"><b class="sm">{{ r.name }}</b><span class="sm">{{ r.meta }}</span></div><div class="ln" style="width:95%"></div><div class="ln" style="width:70%"></div></div><div style="display:flex;flex-direction:column;gap:5px;align-items:flex-end"><span class="chip">{{ r.action }}</span><span class="sm">★ Feature · Edit</span></div></div></sc-for>
+</div>
+<div class="sec"><div class="lbl">Add review form</div><div class="grid2"><div class="field">Guest name</div><div class="field">City</div><div class="field">Rating ★★★★★</div><div class="field">Source: Google / TripAdvisor / WhatsApp</div></div><div class="field" style="height:40px">Review text</div><div class="field">+ Guest photo (optional)</div></div>
+</div>
+<div class="notes"><div class="note">→ After trip, auto-WhatsApp a review link → lands in Pending</div><div class="note">→ "Feature" = shows in top reviews on landing page</div></div></div>
+
+<div class="dv-opt" id="3e" style="width:560px"><div class="dv-olabel"><a class="dv-oid" href="#3e">3e</a>Calendar, slots &amp; prices</div>
+<div class="dv-card" style="border-radius:10px">
+<div class="nav"><span class="h2">Calendar &amp; slots</span><div class="row"><span class="chip">‹ Week ›</span><span class="cta2" style="padding:7px 12px">Block dates</span></div></div>
+<div class="sec"><div style="display:grid;grid-template-columns:60px repeat(7,1fr);gap:4px;font:600 10px Mulish">
+<span></span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+<sc-for list="{{ slotRows }}" as="s" hint-placeholder-count="4"><span style="align-self:center">{{ s.t }}</span><sc-for list="{{ s.cells }}" as="c" hint-placeholder-count="7"><div style="border:1.5px solid #1A1715;border-radius:3px;padding:5px 3px;text-align:center;font:600 10px Mulish">{{ c }}</div></sc-for></sc-for>
+</div><span class="sm">Cell = booked / capacity · click to close slot (weather) — auto-notifies guests</span></div>
+<div class="sec"><div class="lbl">Sessions &amp; prices</div>
+<div class="bx row"><b class="sm" style="flex:1">Mangrove trail · 2 hr</b><span class="field" style="padding:5px 8px">₹X,XXX</span><span class="field" style="padding:5px 8px">12 seats</span><span class="sm">On</span></div>
+<div class="bx row"><b class="sm" style="flex:1">Sunrise paddle · 1.5 hr</b><span class="field" style="padding:5px 8px">₹X,XXX</span><span class="field" style="padding:5px 8px">8 seats</span><span class="sm">On</span></div>
+<div class="bx row"><b class="sm" style="flex:1">Add-ons · Promo codes · Advance %</b><span class="sm">Edit ›</span></div></div>
+</div>
+<div class="notes"><div class="note">→ Price/seat change goes live on site instantly</div></div></div>
+
+<div class="dv-opt" id="3f" style="width:300px"><div class="dv-olabel"><a class="dv-oid" href="#3f">3f</a>Phone view — at the jetty</div>
+<div class="dv-card">
+<div class="nav"><span class="logo">ADMIN</span><span class="sm">☰</span></div>
+<div class="sec"><div class="ov">Today · Sat 14 Nov</div><div class="row"><span class="chip on">9:30 · 10/12</span><span class="chip">12:00</span><span class="chip">15:00</span></div></div>
+<div class="sec">
+<div class="bx row"><span style="width:16px;height:16px;border:1.5px solid #1A1715;background:#455821"></span><div style="flex:1"><b class="sm">Rahul M · 2 pax</b><div class="sm">Due ₹X,XXX</div></div><span class="sm">WA</span></div>
+<div class="bx row"><span style="width:16px;height:16px;border:1.5px solid #1A1715"></span><div style="flex:1"><b class="sm">Priya S · 4 pax</b><div class="sm">Fully paid</div></div><span class="sm">WA</span></div>
+<div class="bx row"><span style="width:16px;height:16px;border:1.5px solid #1A1715"></span><div style="flex:1"><b class="sm">Walk-in · 2 pax</b><div class="sm">Due ₹X,XXX</div></div><span class="sm">WA</span></div>
+</div>
+<div class="bar"><div class="cta2" style="flex:1">+ Walk-in</div><div class="cta" style="flex:1">Upload photos</div></div>
+</div>
+<div class="notes"><div class="note">→ Tick = checked in</div><div class="note">→ Upload trip photos straight from phone</div></div></div>
+
+</div>
+<p class="dv-next">Try next: "add login screen" · "staff vs owner roles" · "revenue reports page"</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname">Booking flow — opens as a bottom sheet from any landing option (mobile)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a"><div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Step 1 · Session, date &amp; slot</div>
+<div class="dv-card">
+<div class="nav"><span class="sm">✕ Close</span><span class="ov">Step 1 of 3</span><span class="sm">Help</span></div>
+<div class="sec"><div class="steps"><i class="on"></i><i></i><i></i></div>
+<div class="lbl">Session</div>
+<div class="row" style="flex-wrap:wrap"><span class="chip on">Mangrove · 2 hr</span><span class="chip">Sunrise</span><span class="chip">Glass-bottom</span></div>
+<div class="lbl">Date</div>
+<div class="bx"><div class="row" style="justify-content:space-between"><span class="sm">‹</span><b class="sm">November 2026</b><span class="sm">›</span></div>
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+<sc-for list="{{ days }}" as="d" hint-placeholder-count="28"><div style="height:26px;border:1px solid #cfc8b9;border-radius:3px;font:600 10px Mulish;display:flex;align-items:center;justify-content:center">{{ d }}</div></sc-for>
+</div><div class="sm">Greyed dates = rough sea / sold out</div></div>
+<div class="lbl">Slot (tide-based)</div>
+<div class="grid2"><div class="bx"><b class="sm">7:00 AM</b><span class="sm">6 seats left</span></div><div class="bx" style="background:#1A1715;color:#fff"><b style="font-size:11px">9:30 AM</b><span style="font-size:11px">2 seats left</span></div><div class="bx"><b class="sm">12:00 PM</b><span class="sm">Sold out</span></div><div class="bx"><b class="sm">3:00 PM</b><span class="sm">8 seats left</span></div></div>
+</div>
+<div class="bar"><div style="flex:1"><div class="price">₹X,XXX</div><div class="sm">per person</div></div><div class="cta" style="flex:1">Continue</div></div>
+</div>
+<div class="notes"><div class="note">→ Seats-left = honest urgency for ad traffic</div><div class="note">→ Slots driven by tide chart, not fixed</div></div></div>
+
+<div class="dv-opt" id="2b"><div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Step 2 · Guests &amp; add-ons</div>
+<div class="dv-card">
+<div class="nav"><span class="sm">‹ Back</span><span class="ov">Step 2 of 3</span><span class="sm">Help</span></div>
+<div class="sec"><div class="steps"><i class="on"></i><i class="on"></i><i></i></div>
+<div class="bx"><div class="row" style="justify-content:space-between"><div><b class="sm">Adults</b><div class="sm">12+ yrs</div></div><div class="row"><span class="chip">−</span><b>2</b><span class="chip">+</span></div></div>
+<div class="row" style="justify-content:space-between"><div><b class="sm">Kids</b><div class="sm">6–11 yrs, with adult</div></div><div class="row"><span class="chip">−</span><b>0</b><span class="chip">+</span></div></div></div>
+<div class="lbl">Kayak type</div>
+<div class="grid2"><div class="bx" style="border-width:2.5px"><b class="sm">Double (shared)</b><span class="sm">Included</span></div><div class="bx"><b class="sm">Single</b><span class="sm">+ ₹XXX</span></div></div>
+<div class="lbl">Add-ons</div>
+<div class="bx"><div class="row"><span style="width:14px;height:14px;border:1.5px solid #1A1715;background:#D97757"></span><span class="sm" style="flex:1">GoPro photos &amp; video</span><span class="sm">+₹XXX</span></div>
+<div class="row"><span style="width:14px;height:14px;border:1.5px solid #1A1715"></span><span class="sm" style="flex:1">Hotel pickup · Port Blair</span><span class="sm">+₹XXX</span></div>
+<div class="row"><span style="width:14px;height:14px;border:1.5px solid #1A1715"></span><span class="sm" style="flex:1">Boat transfer to North Bay</span><span class="sm">+₹XXX</span></div>
+<div class="row"><span style="width:14px;height:14px;border:1.5px solid #1A1715"></span><span class="sm" style="flex:1">Combo: + snorkelling</span><span class="sm">+₹XXX</span></div></div>
+</div>
+<div class="bar"><div style="flex:1"><div class="price">₹X,XXX</div><div class="sm">2 guests · total</div></div><div class="cta" style="flex:1">Continue</div></div>
+</div>
+<div class="notes"><div class="note">→ Upsells here, after commitment</div><div class="note">→ Transfer add-on answers "how do I get there?"</div></div></div>
+
+<div class="dv-opt" id="2c"><div class="dv-olabel"><a class="dv-oid" href="#2c">2c</a>Step 3 · Details &amp; pay advance</div>
+<div class="dv-card">
+<div class="nav"><span class="sm">‹ Back</span><span class="ov">Step 3 of 3</span><span class="sm">Help</span></div>
+<div class="sec"><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+<div class="bx" style="background:#faf8f3"><b class="sm">Mangrove · Sat 14 Nov · 9:30 AM</b><span class="sm">2 adults · GoPro · Edit</span></div>
+<div class="lbl">Full name</div><div class="field">As on ID (needed for jetty permit)</div>
+<div class="lbl">WhatsApp number</div><div class="field">+91 ·····</div>
+<div class="lbl">Email (optional)</div><div class="field">for receipt</div>
+<div class="lbl">Pay now</div>
+<div class="grid2"><div class="bx" style="border-width:2.5px"><b class="sm">Advance 25%</b><span class="price" style="font-size:14px">₹X,XXX</span></div><div class="bx"><b class="sm">Full amount</b><span class="price" style="font-size:14px">₹X,XXX</span></div></div>
+<div class="row"><span class="chip">UPI</span><span class="chip">Card</span><span class="chip">Netbanking</span></div>
+<div class="sm">Free reschedule if weather cancels · Full refund 48 hrs before</div>
+</div>
+<div class="bar"><div class="cta" style="flex:1">Pay ₹X,XXX &amp; confirm</div></div>
+</div>
+<div class="notes"><div class="note">→ Only 3 fields. Phone = key lead even if they drop</div><div class="note">→ Advance lowers commitment friction</div></div></div>
+
+<div class="dv-opt" id="2d"><div class="dv-olabel"><a class="dv-oid" href="#2d">2d</a>Confirmation</div>
+<div class="dv-card">
+<div class="nav"><span class="logo">LOGO</span><span class="sm">Done</span></div>
+<div class="sec" style="align-items:center;text-align:center;padding:28px 16px">
+<div class="ic" style="width:52px;height:52px;background:#455821"></div>
+<div class="h1" style="font-size:22px">You're booked.</div>
+<div class="sm">Booking ID · NB-XXXX<br>Details sent on WhatsApp</div></div>
+<div class="sec">
+<div class="bx"><b class="sm">Sat 14 Nov · Report 8:45 AM</b><span class="sm">Meet at: Rajiv Gandhi Water Sports Complex jetty, Port Blair</span><div class="ph" style="height:90px">Map</div></div>
+<div class="lbl">Bring</div>
+<div class="row" style="flex-wrap:wrap"><span class="chip">Photo ID</span><span class="chip">Quick-dry clothes</span><span class="chip">Sunscreen</span><span class="chip">Water</span></div>
+<div class="grid2"><div class="cta2">Add to calendar</div><div class="cta2">Get directions</div></div>
+<div class="cta">Chat on WhatsApp</div>
+</div>
+</div>
+<div class="notes"><div class="note">→ Fire ad conversion pixel on this screen</div><div class="note">→ Reduce no-shows: report time + checklist</div></div></div>
+
+</div>
+<p class="dv-next">Try next: "make the flow a single page instead of 3 steps" · "add a WhatsApp-only booking path" · "desktop version of <a class="dv-oid" href="#2a">2a</a>"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Landing page — 4 directions for ad traffic (mobile-first)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Classic story scroll + sticky Book bar</div>
+<div class="dv-card">
+<div class="nav"><span class="logo">LOGO</span><span class="sm">☰</span></div>
+<div class="ph" style="height:240px;border-width:0 0 1.5px;flex-direction:column;gap:6px">Hero video loop<br>kayaks over coral / mangroves</div>
+<div class="sec"><div class="ov">North Bay Island · Andaman</div><div class="h1">Paddle the clearest water in the Andamans.</div><div class="sm">Guided 2-hr kayak trips · no experience needed</div>
+<div class="row"><span class="chip">★ 4.9 · 300+ reviews</span><span class="chip">Life jackets</span></div><div class="cta">Check dates &amp; book</div></div>
+<div class="sec"><div class="ov">Choose a session</div>
+<div class="bx row"><div class="ph" style="width:70px;height:56px">img</div><div style="flex:1"><b class="sm">Mangrove trail</b><div class="sm">2 hr · calm</div></div><div class="price">₹X,XXX</div></div>
+<div class="bx row"><div class="ph" style="width:70px;height:56px">img</div><div style="flex:1"><b class="sm">Sunrise paddle</b><div class="sm">1.5 hr · 6 AM</div></div><div class="price">₹X,XXX</div></div>
+<div class="bx row"><div class="ph" style="width:70px;height:56px">img</div><div style="flex:1"><b class="sm">Glass-bottom kayak</b><div class="sm">1 hr · see coral</div></div><div class="price">₹X,XXX</div></div></div>
+<div class="sec"><div class="ov">How it works</div><div class="grid3"><div class="bx"><b class="sm">1</b><span class="sm">Boat from Port Blair</span></div><div class="bx"><b class="sm">2</b><span class="sm">Safety brief</span></div><div class="bx"><b class="sm">3</b><span class="sm">Paddle with guide</span></div></div></div>
+<div class="sec"><div class="ov">Included</div><div class="row" style="flex-wrap:wrap"><span class="chip">Guide</span><span class="chip">Life jacket</span><span class="chip">Photos</span><span class="chip">Water</span><span class="chip">Locker</span></div></div>
+<div class="sec"><div class="ov">Gallery</div><div class="grid3"><div class="ph" style="height:70px">img</div><div class="ph" style="height:70px">img</div><div class="ph" style="height:70px">img</div></div></div>
+<div class="sec"><div class="ov">Reviews</div><div class="bx"><div class="ln" style="width:90%"></div><div class="ln" style="width:70%"></div><span class="sm">— Name, city · Google</span></div></div>
+<div class="sec"><div class="ov">FAQ</div><div class="bx"><b class="sm">+ Do I need to swim?</b></div><div class="bx"><b class="sm">+ How do I reach North Bay?</b></div><div class="bx"><b class="sm">+ What if the sea is rough?</b></div></div>
+<div class="bar"><div style="flex:1"><div class="sm">From</div><div class="price">₹X,XXX</div></div><div class="ic"></div><div class="cta" style="flex:1.3">Book now</div></div>
+</div>
+<div class="notes"><div class="note">→ Safest, most familiar pattern</div><div class="note">→ Sticky bar keeps CTA always 1 tap away</div></div></div>
+
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Booking widget above the fold</div>
+<div class="dv-card">
+<div class="nav"><span class="logo">LOGO</span><span class="sm">Call</span></div>
+<div class="ph" style="height:150px;border-width:0 0 1.5px;align-items:flex-start;padding-top:28px">Hero photo</div>
+<div class="sec" style="margin-top:-46px;background:transparent;border:0"><div class="bx" style="background:#fff;border-width:2px;gap:9px;padding:14px">
+<div class="h2">Kayak North Bay — book in 60 seconds</div>
+<div class="lbl">Session</div><div class="field">Mangrove trail · 2 hr ▾</div>
+<div class="grid2"><div><div class="lbl">Date</div><div class="field">Pick date ▾</div></div><div><div class="lbl">Guests</div><div class="field">2 adults ▾</div></div></div>
+<div class="row" style="flex-wrap:wrap"><span class="chip">7:00</span><span class="chip on">9:30</span><span class="chip">15:00</span></div>
+<div class="row" style="justify-content:space-between"><span class="price">₹X,XXX total</span><span class="sm">Pay 25% now</span></div>
+<div class="cta">Reserve my slot</div></div></div>
+<div class="sec"><div class="grid3"><div class="bx" style="align-items:center"><div class="ic"></div><span class="sm">Certified guides</span></div><div class="bx" style="align-items:center"><div class="ic"></div><span class="sm">Free reschedule</span></div><div class="bx" style="align-items:center"><div class="ic"></div><span class="sm">★ 4.9 Google</span></div></div></div>
+<div class="sec"><div class="ov">What you'll see</div><div class="ph" style="height:140px">Swipeable gallery / reel</div></div>
+<div class="sec"><div class="ov">Reviews</div><div class="row" style="overflow:hidden"><div class="bx" style="min-width:200px"><div class="ln"></div><div class="ln" style="width:60%"></div></div><div class="bx" style="min-width:200px"><div class="ln"></div></div></div></div>
+<div class="sec"><div class="ov">Meeting point</div><div class="ph" style="height:100px">Map · jetty Port Blair</div></div>
+<div class="sec"><div class="ov">FAQ</div><div class="bx"><b class="sm">+ Swimming / age / weather / refund</b></div></div>
+</div>
+<div class="notes"><div class="note">→ For high-intent ads ("kayaking port blair")</div><div class="note">→ No sticky bar — form IS the hero</div></div></div>
+
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Package compare — pick a session first</div>
+<div class="dv-card">
+<div class="nav"><span class="logo">LOGO</span><span class="sm">☰</span></div>
+<div class="sec"><div class="ov">North Bay · Andaman</div><div class="h1">Pick your paddle.</div><div class="sm">Three ways to kayak North Bay. All guided, all beginner-friendly.</div>
+<div class="row"><span class="chip on">All</span><span class="chip">Families</span><span class="chip">Couples</span><span class="chip">Photographers</span></div></div>
+<div class="sec">
+<div class="bx" style="padding:0;overflow:hidden"><div class="ph" style="height:120px;border-width:0 0 1.5px">Mangrove photo</div><div style="padding:10px;display:flex;flex-direction:column;gap:6px"><div class="row" style="justify-content:space-between"><b class="h2" style="font-size:16px">Mangrove trail</b><span class="chip" style="background:#F3D9CC">Most booked</span></div><span class="sm">2 hr · calm water · ages 6+</span><div class="row" style="justify-content:space-between"><span class="price">₹X,XXX</span><span class="cta" style="padding:8px 14px">Book</span></div></div></div>
+<div class="bx" style="padding:0;overflow:hidden"><div class="ph" style="height:90px;border-width:0 0 1.5px">Sunrise photo</div><div style="padding:10px;display:flex;flex-direction:column;gap:6px"><b class="h2" style="font-size:16px">Sunrise paddle</b><span class="sm">1.5 hr · 5:45 AM start</span><div class="row" style="justify-content:space-between"><span class="price">₹X,XXX</span><span class="cta2" style="padding:7px 14px">Book</span></div></div></div>
+<div class="bx" style="padding:0;overflow:hidden"><div class="ph" style="height:90px;border-width:0 0 1.5px">Glass-bottom photo</div><div style="padding:10px;display:flex;flex-direction:column;gap:6px"><b class="h2" style="font-size:16px">Glass-bottom kayak</b><span class="sm">1 hr · see coral below</span><div class="row" style="justify-content:space-between"><span class="price">₹X,XXX</span><span class="cta2" style="padding:7px 14px">Book</span></div></div></div></div>
+<div class="sec"><div class="ov">Compare</div><div class="bx" style="gap:4px"><div class="grid3 sm"><b>&nbsp;</b><b>Mangrove</b><b>Glass</b></div><div class="grid3 sm"><span>Duration</span><span>2 hr</span><span>1 hr</span></div><div class="grid3 sm"><span>Coral</span><span>—</span><span>✓</span></div><div class="grid3 sm"><span>Kids</span><span>✓</span><span>✓</span></div></div></div>
+<div class="sec"><div class="ov">Reviews · FAQ · Meeting point</div><div class="ln"></div><div class="ln" style="width:70%"></div></div>
+</div>
+<div class="notes"><div class="note">→ Run separate ads per package, deep-link to its card</div><div class="note">→ Good for upsell to premium sessions</div></div></div>
+
+<div class="dv-opt" id="1d"><div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Short &amp; WhatsApp-first</div>
+<div class="dv-card">
+<div class="ph" style="height:330px;border-width:0 0 1.5px;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:16px;text-align:left;gap:8px;text-transform:none;letter-spacing:0">
+<span class="ov">Full-bleed vertical video</span>
+<span class="h1" style="color:#1A1715;font-size:24px">Kayak North Bay's glass-clear lagoon.</span>
+<span class="chip" style="background:#fff">★ 4.9 · 2 hr · from ₹X,XXX</span></div>
+<div class="sec"><div class="cta">Book online</div><div class="cta2">Ask on WhatsApp — reply in 5 min</div><div class="sm" style="text-align:center">or call +91 XXXXX XXXXX</div></div>
+<div class="sec"><div class="grid2"><div class="bx"><b class="sm">No swim needed</b><span class="sm">Life jackets + guide</span></div><div class="bx"><b class="sm">Weather-safe</b><span class="sm">Free reschedule</span></div><div class="bx"><b class="sm">Boat included</b><span class="sm">From Port Blair jetty</span></div><div class="bx"><b class="sm">Free photos</b><span class="sm">Sent same day</span></div></div></div>
+<div class="sec"><div class="ov">Real guests</div><div class="grid3"><div class="ph" style="height:90px">UGC</div><div class="ph" style="height:90px">UGC</div><div class="ph" style="height:90px">UGC</div></div></div>
+<div class="sec"><div class="ov">Quick answers</div><div class="bx"><b class="sm">+ 4 FAQs max</b></div></div>
+<div class="bar"><div class="cta2" style="flex:1">WhatsApp</div><div class="cta" style="flex:1">Book</div></div>
+</div>
+<div class="notes"><div class="note">→ Shortest page; many Indian travellers prefer to chat first</div><div class="note">→ Best for Instagram / Reels ads</div></div></div>
+
+</div>
+<p class="dv-next">Try next: "combine the hero of <a class="dv-oid" href="#1d">1d</a> with the widget of <a class="dv-oid" href="#1b">1b</a>" · "desktop layouts" · "add a combo packages section to <a class="dv-oid" href="#1a">1a</a>"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const row = (n, a, b, c, d, e, f, g) => ({ t: n, cells: [a, b, c, d, e, f, g] });
+    return {
+      days: Array.from({ length: 28 }, (_, i) => String(i + 1)),
+      bookings: [
+        { id: 'NB-1042', name: 'Rahul M', phone: '+91 98XXX', slot: '9:30', session: 'Mangrove', pax: '2', paid: '25% · ₹X', status: 'Advance' },
+        { id: 'NB-1043', name: 'Priya S', phone: '+91 97XXX', slot: '9:30', session: 'Mangrove', pax: '4', paid: 'Full', status: 'Paid' },
+        { id: 'NB-1044', name: 'Walk-in', phone: '—', slot: '9:30', session: 'Mangrove', pax: '2', paid: '—', status: 'Due' },
+        { id: 'NB-1045', name: 'Ankit & Co', phone: '+91 99XXX', slot: '12:00', session: 'Glass', pax: '3', paid: '25% · ₹X', status: 'Advance' },
+        { id: 'NB-1046', name: 'Sara K', phone: '+44 7XXX', slot: '15:00', session: 'Mangrove', pax: '2', paid: 'Full', status: 'Paid' },
+        { id: 'NB-1047', name: 'Dev P', phone: '+91 90XXX', slot: '15:00', session: 'Mangrove', pax: '5', paid: '—', status: 'Cancelled' }
+      ],
+      photos: ['Hero', 'Hero', 'Gallery', 'Gallery', 'Gallery', 'Mangrove card', 'Sunrise card', 'Hidden'],
+      reviews: [
+        { name: 'Neha, Pune', meta: '★★★★★ · Google', action: 'Live' },
+        { name: 'Arjun, Delhi', meta: '★★★★★ · WhatsApp', action: 'Approve' },
+        { name: 'Emma, UK', meta: '★★★★☆ · TripAdvisor', action: 'Approve' }
+      ],
+      slotRows: [
+        row('6:00', '4/8', '8/8', '2/8', '—', '6/8', '8/8', '7/8'),
+        row('9:30', '10/12', '12/12', '5/12', '—', '9/12', '12/12', '11/12'),
+        row('12:00', '3/12', '6/12', '0/12', '—', '4/12', '10/12', '8/12'),
+        row('15:00', '7/12', '9/12', '4/12', '—', '8/12', '12/12', '12/12')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

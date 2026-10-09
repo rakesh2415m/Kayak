@@ -1,0 +1,54 @@
+/* ============================================================
+   Svam Realty — Base element styles & a few brand utilities
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+  margin: 0 0 0.5em;
+}
+
+p { margin: 0 0 1em; }
+a { color: var(--text-brand); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+::selection { background: var(--terracotta-200); color: var(--charcoal-900); }
+
+/* Brand overline — the wide-tracked caps treatment of "REALTY" */
+.ds-overline {
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Display heading helper */
+.ds-display {
+  font-family: var(--font-display);
+  font-weight: var(--weight-regular);
+  letter-spacing: var(--tracking-display);
+  line-height: var(--leading-tight);
+  color: var(--text-strong);
+}
+
+/* Editorial serif helper */
+.ds-serif {
+  font-family: var(--font-serif);
+}

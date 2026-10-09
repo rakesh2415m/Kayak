@@ -1,0 +1,37 @@
+/* ============================================================
+   Svam Realty — Radius, shadow, border & motion tokens
+   The brand reads refined and architectural: restrained radii,
+   soft warm-tinted shadows, slow confident easing.
+   ============================================================ */
+:root {
+  /* ---- Corner radius ---- */
+  --radius-none: 0;
+  --radius-xs:   2px;
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;   /* cards */
+  --radius-xl:   16px;   /* brand-pattern panels use rx:16 */
+  --radius-2xl:  24px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows (warm-tinted, charcoal base, never blue) ---- */
+  --shadow-xs:  0 1px 2px rgba(26, 23, 21, 0.06);
+  --shadow-sm:  0 2px 6px rgba(26, 23, 21, 0.07);
+  --shadow-md:  0 6px 18px rgba(26, 23, 21, 0.09);
+  --shadow-lg:  0 16px 40px rgba(26, 23, 21, 0.12);
+  --shadow-xl:  0 28px 70px rgba(26, 23, 21, 0.16);
+  --shadow-focus: 0 0 0 3px rgba(217, 119, 87, 0.35);
+
+  /* ---- Borders ---- */
+  --border-width: 1px;
+  --border-width-thick: 2px;
+
+  /* ---- Motion ---- */
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-emphasis: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);    /* @kind other */
+  --dur-fast:   140ms;   /* @kind other */
+  --dur-base:   220ms;   /* @kind other */
+  --dur-slow:   420ms;   /* @kind other */
+  --dur-slower: 700ms;   /* @kind other */
+}

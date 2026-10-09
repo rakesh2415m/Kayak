@@ -1,0 +1,51 @@
+/* ============================================================
+   Svam Realty — Typography tokens
+   Display = Marcellus (elegant roman caps, mirrors the wordmark)
+   Body/UI = Mulish (humanist sans)
+   Editorial = Cormorant Garamond (high-contrast serif for quotes & numerals)
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-display:   'Marcellus', 'Cormorant Garamond', Georgia, serif;
+  --font-serif:     'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans:      'Mulish', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:      var(--font-sans);
+
+  /* ---- Weights ---- */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+  --weight-extra:    800;
+
+  /* ---- Fluid display sizes (real-estate hero / headings) ---- */
+  --text-display-xl: clamp(3.5rem, 6vw, 6rem);    /* 56–96 */
+  --text-display-lg: clamp(2.75rem, 4.5vw, 4.25rem);
+  --text-display-md: clamp(2.25rem, 3.5vw, 3.25rem);
+  --text-display-sm: clamp(1.875rem, 2.6vw, 2.5rem);
+
+  /* ---- Static UI scale ---- */
+  --text-h1:   2.5rem;   /* 40 */
+  --text-h2:   2rem;     /* 32 */
+  --text-h3:   1.5rem;   /* 24 */
+  --text-h4:   1.25rem;  /* 20 */
+  --text-lg:   1.125rem; /* 18 */
+  --text-base: 1rem;     /* 16 */
+  --text-sm:   0.875rem; /* 14 */
+  --text-xs:   0.75rem;  /* 12 */
+  --text-2xs:  0.6875rem;/* 11 — eyebrows / overlines */
+
+  /* ---- Line heights ---- */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.08em;
+  --tracking-wider:  0.18em;  /* "REALTY"-style overlines */
+  --tracking-display:0.02em;
+}

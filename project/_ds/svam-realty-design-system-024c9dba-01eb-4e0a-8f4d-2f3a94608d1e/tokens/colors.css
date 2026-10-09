@@ -1,0 +1,93 @@
+/* ============================================================
+   Svam Realty — Color tokens
+   Warm, earthy luxury real-estate palette pulled from the
+   brand master files: terracotta, warm charcoal, cream sand,
+   and a sage/olive secondary drawn from the brand patterns.
+   ============================================================ */
+:root {
+  /* ---- Terracotta (PRIMARY) ---- */
+  --terracotta-700: #9E4730;
+  --terracotta-600: #C25B3C;
+  --terracotta-500: #D97757; /* primary brand color */
+  --terracotta-400: #E29478;
+  --terracotta-300: #EBB29E;
+  --terracotta-200: #F3D2C5;
+  --terracotta-100: #F9E8E0;
+  --terracotta-50:  #FCF4EF;
+
+  /* ---- Warm charcoal (ink) ---- */
+  --charcoal-900: #14110F;
+  --charcoal-800: #1A1715; /* brand ink */
+  --charcoal-700: #2A2521;
+  --charcoal-600: #423B35;
+  --charcoal-500: #5C534B;
+  --charcoal-400: #847A70;
+  --charcoal-300: #999386; /* brand warm grey ("REALTY") */
+  --charcoal-200: #BDB7AC;
+  --charcoal-100: #DAD5CB;
+
+  /* ---- Sand / cream (paper) ---- */
+  --sand-500: #C9C1AE;
+  --sand-400: #DBD4C3;
+  --sand-300: #E8E2D5;
+  --sand-200: #F3EFE6; /* brand cream surface */
+  --sand-100: #F8F5EE;
+  --sand-50:  #FCFAF5;
+  --white:    #FFFFFF;
+
+  /* ---- Sage / olive (secondary, from patterns) ---- */
+  --sage-700: #3A4A1B;
+  --sage-600: #455821; /* brand dark sage */
+  --sage-500: #7F8D34; /* brand olive */
+  --sage-400: #9BA85A;
+  --sage-300: #BCC68C;
+  --sage-200: #D9DFBF;
+  --sage-100: #EEF1E2;
+
+  /* ---- Functional accents ---- */
+  --success: #5A7A2E;
+  --warning: #C98A2E;
+  --danger:  #B4452F;
+  --info:    #5C6E8C;
+
+  /* ============================================================
+     Semantic aliases — reference these in components, not the
+     primitives above.
+     ============================================================ */
+
+  /* Text */
+  --text-strong:   var(--charcoal-900);
+  --text-body:     var(--charcoal-800);
+  --text-muted:    var(--charcoal-400);
+  --text-subtle:   var(--charcoal-300);
+  --text-inverse:  var(--sand-100);
+  --text-brand:    var(--terracotta-500);
+  --text-on-brand: var(--white);
+
+  /* Surfaces */
+  --surface-page:    var(--sand-100);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--sand-200);
+  --surface-raised:  var(--white);
+  --surface-inverse: var(--charcoal-800);
+  --surface-brand:   var(--terracotta-500);
+  --surface-brand-soft: var(--terracotta-100);
+  --surface-sage-soft:  var(--sage-100);
+
+  /* Borders / lines */
+  --border-subtle:  var(--sand-300);
+  --border-default: var(--sand-400);
+  --border-strong:  var(--charcoal-200);
+  --border-brand:   var(--terracotta-500);
+  --border-inverse: var(--charcoal-600);
+
+  /* Interactive (terracotta) */
+  --accent:          var(--terracotta-500);
+  --accent-hover:    var(--terracotta-600);
+  --accent-active:   var(--terracotta-700);
+  --accent-soft:     var(--terracotta-100);
+  --accent-contrast: var(--white);
+
+  /* Focus ring */
+  --focus-ring: var(--terracotta-400);
+}
