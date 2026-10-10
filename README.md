@@ -24,7 +24,7 @@ npm run seed:demo   # optional: sample bookings + reviews (don't run on the live
 npm test
 ```
 
-If `ADMIN_PASSWORD` isn't set on first run, a random password is printed to the console. You can change it later in Admin → Settings.
+If `ADMIN_PASSWORD` is set, it becomes the admin password every time the server starts (handy for resetting a forgotten one). If it isn't set, a random password is printed on first run; you can change it in Admin → Settings.
 
 Data lives in `data/` (SQLite file + uploaded photos). Back this folder up. Set `DATA_DIR` to store it elsewhere.
 

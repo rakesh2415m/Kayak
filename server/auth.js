@@ -17,10 +17,16 @@ function checkPassword(pw, stored) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-// On first run, set the password from ADMIN_PASSWORD or generate one and print it.
+// ADMIN_PASSWORD, when set, always becomes the password at startup (so it can
+// be used to reset a forgotten one). Otherwise a random one is generated on first run.
 function ensurePassword() {
-  if (getSettings().admin_password_hash) return;
-  let pw = process.env.ADMIN_PASSWORD;
+  const current = getSettings().admin_password_hash;
+  if (process.env.ADMIN_PASSWORD) {
+    if (!checkPassword(process.env.ADMIN_PASSWORD, current)) setSetting('admin_password_hash', hashPassword(process.env.ADMIN_PASSWORD));
+    return;
+  }
+  if (current) return;
+  let pw;
   if (!pw) {
     pw = crypto.randomBytes(6).toString('base64url');
     console.log('\n  ┌──────────────────────────────────────────────┐');
