@@ -233,7 +233,7 @@ ${faqs.length ? `<section class="section container narrow" id="faq">
 <footer class="site-footer">
   <div class="container footer-inner">
     <div><div class="logo">${e(st.brand_name)}</div><p class="small">${e(st.meeting_point)}</p></div>
-    <div class="small"><a href="tel:${e(st.phone.replace(/\s/g, ''))}">${e(st.phone)}</a>${st.email ? `<br><a href="mailto:${e(st.email)}">${e(st.email)}</a>` : ''}<br><a href="${e(waLink(st.whatsapp))}" target="_blank" rel="noopener">WhatsApp</a></div>
+    <div class="small"><a href="tel:${e(st.phone.replace(/\s/g, ''))}">${e(st.phone)}</a>${st.email ? `<br><a href="mailto:${e(st.email)}">${e(st.email)}</a>` : ''}<br><a href="${e(waLink(st.whatsapp))}" target="_blank" rel="noopener">WhatsApp</a><br><a href="/admin/" rel="nofollow" style="opacity:.6">Staff login</a></div>
   </div>
 </footer>
 
