@@ -21,6 +21,7 @@ const ICONS = {
   camera: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M4 7h3l2-3h6l2 3h3v13H4z"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
   pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>',
   menu: '<svg viewBox="0 0 24 24" aria-hidden="true"><path stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg>',
+  download: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 4v11m-5-5 5 5 5-5M5 20h14"/></svg>',
   arrow: '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>',
   clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 7v5l3 2"/></svg>',
   logo: '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 20c3 0 3-2.6 6.5-2.6S13 20 16 20s3-2.6 6.5-2.6S26 20 29 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 24 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M22.5 7.3 26 10.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
@@ -525,7 +526,8 @@ ${header(st)}
   <div class="container narrow confirm-hero">
     <div class="tick ${ok ? '' : 'tick-pending'}">${ok ? ICONS.check : b.status === 'cancelled' ? '✕' : '…'}</div>
     <h1>${title}</h1>
-    <p>${ok && !past ? 'This page is your ticket. Bookmark it, save it as a PDF, or open it any time from <b>My booking</b>.' : b.status === 'pending' ? 'We have not received your payment yet. If money was debited, message us on WhatsApp.' : past ? 'We hope you loved it. A quick review helps other travellers find us.' : ''}</p>
+    <p>${ok && !past ? 'This page is your ticket. Download it, or open it any time from <b>My booking</b>.' : b.status === 'pending' ? 'We have not received your payment yet. If money was debited, message us on WhatsApp.' : past ? 'We hope you loved it. A quick review helps other travellers find us.' : ''}</p>
+    ${b.status !== 'pending' ? `<a class="btn btn-glass hero-dl" href="/booking/${e(b.code)}/ticket.pdf?t=${e(b.token)}" download>${ICONS.download} Download ticket (PDF)</a>` : ''}
   </div>
   ${waves('#fffaf2')}
 </section>
@@ -556,7 +558,8 @@ ${header(st)}
   </article>
 
   <div class="ticket-actions no-print">
-    <button class="btn btn-primary" type="button" onclick="window.print()">Print / save ticket</button>
+    <a class="btn btn-primary" href="/booking/${e(b.code)}/ticket.pdf?t=${e(b.token)}" download>${ICONS.download} Download PDF</a>
+    <button class="btn btn-secondary" type="button" onclick="window.print()">Print</button>
     <a class="btn btn-secondary" href="/booking/${e(b.code)}/calendar.ics?t=${e(b.token)}">Add to calendar</a>
     <a class="btn btn-secondary" href="${e(dirUrl)}" target="_blank" rel="noopener">Get directions</a>
     <button class="btn btn-secondary" type="button" id="copyLink">Copy ticket link</button>
@@ -679,4 +682,4 @@ function ics(b) {
     'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
 }
 
-module.exports = { landing, blogIndex, blogPost, sitemap, rss, confirmation, reviewPage, myBookingPage, ics, e, waLink };
+module.exports = { reportTime, landing, blogIndex, blogPost, sitemap, rss, confirmation, reviewPage, myBookingPage, ics, e, waLink };

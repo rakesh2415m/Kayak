@@ -6,6 +6,7 @@ const pay = require('./payments');
 const views = require('./views');
 const media = require('./media');
 const QRCode = require('qrcode');
+const { ticketPdf } = require('./ticket-pdf');
 
 const router = express.Router();
 
@@ -59,6 +60,16 @@ router.get('/booking/:code', async (req, res) => {
   let qr = '';
   try { qr = await QRCode.toString(`${siteUrl(req)}/booking/${b.code}?t=${b.token}`, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#062a3aff', light: '#ffffff00' } }); } catch { /* ticket still works without QR */ }
   res.set('Cache-Control', 'no-store').set('X-Robots-Tag', 'noindex').type('html').send(views.confirmation(B.decorate(b), { qr }));
+});
+
+router.get('/booking/:code/ticket.pdf', (req, res) => {
+  const b = bookingByCode(req.params.code, req.query.t);
+  if (!b) return res.status(404).end();
+  const d = B.decorate(b);
+  res.set('Content-Type', 'application/pdf');
+  res.set('Content-Disposition', `attachment; filename="ticket-${b.code}.pdf"`);
+  res.set('Cache-Control', 'no-store');
+  ticketPdf(d, { url: `${siteUrl(req)}/booking/${b.code}?t=${b.token}`, reportTime: views.reportTime(d, B.getSession(b.session_id)) }).pipe(res);
 });
 
 router.get('/my-booking', (req, res) => res.type('html').send(views.myBookingPage()));

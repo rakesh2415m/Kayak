@@ -250,3 +250,17 @@ test('guests can re-open their ticket with booking ID + phone', async () => {
   assert.match(ticket.data, /<svg[^>]*viewBox/);
   assert.equal((await req('GET', '/my-booking')).status, 200);
 });
+
+test('ticket downloads as a PDF', async () => {
+  const r = await book({ adults: 1, time: '15:00' });
+  await req('POST', `/api/bookings/${r.data.code}/simulate-pay`, { token: r.data.token });
+  const res = await fetch(`${base}/booking/${r.data.code}/ticket.pdf?t=${r.data.token}`);
+  assert.equal(res.status, 200);
+  assert.equal(res.headers.get('content-type'), 'application/pdf');
+  assert.match(res.headers.get('content-disposition'), /ticket-NB-\d+\.pdf/);
+  const buf = Buffer.from(await res.arrayBuffer());
+  assert.equal(buf.slice(0, 5).toString(), '%PDF-');
+  assert.equal((await fetch(`${base}/booking/${r.data.code}/ticket.pdf?t=wrong`)).status, 404);
+  const page = await req('GET', `/booking/${r.data.code}?t=${r.data.token}`);
+  assert.match(page.data, /Download ticket \(PDF\)/);
+});
