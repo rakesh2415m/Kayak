@@ -60,7 +60,7 @@ test('booking → simulated payment → confirmation page', async () => {
   assert.equal(p.data.ok, true);
   const page = await req('GET', p.data.url);
   assert.match(page.data, /You're booked/);
-  assert.match(page.data, /Report by 8:45 AM/);
+  assert.match(page.data, /<dt>Report by<\/dt><dd>8:45 AM<\/dd>/);
   const ics = await req('GET', `/booking/${r.data.code}/calendar.ics?t=${r.data.token}`);
   assert.match(ics.data, /BEGIN:VEVENT/);
   const noTok = await req('GET', `/booking/${r.data.code}`);
@@ -225,4 +225,28 @@ test('blog: drafts hidden, publish shows on blog, landing and sitemap; markdown 
   up.append('slug', slug); up.append('status', 'draft');
   await fetch(base + '/admin/api/posts/' + created.post.id, { method: 'PUT', headers: { Cookie: cookie }, body: up });
   assert.equal((await req('GET', '/blog/' + slug)).status, 404);
+});
+
+test('guests can re-open their ticket with booking ID + phone', async () => {
+  const r = await book({ adults: 1, phone: '+91 98765 11111', time: '12:00' });
+  assert.equal(r.status, 200, JSON.stringify(r.data));
+  await req('POST', `/api/bookings/${r.data.code}/simulate-pay`, { token: r.data.token });
+
+  const ok = await req('POST', '/api/find-booking', { code: r.data.code.toLowerCase(), phone: '9876511111' });
+  assert.equal(ok.status, 200);
+  assert.equal(ok.data.url, `/booking/${r.data.code}?t=${r.data.token}`);
+  const numOnly = await req('POST', '/api/find-booking', { code: r.data.code.replace('NB-', ''), phone: '+91-98765-11111' });
+  assert.equal(numOnly.status, 200);
+
+  const wrong = await req('POST', '/api/find-booking', { code: r.data.code, phone: '9999999999' });
+  assert.equal(wrong.status, 404);
+  const nope = await req('POST', '/api/find-booking', { code: 'NB-99999', phone: '9876511111' });
+  assert.equal(nope.status, 404);
+  assert.equal(wrong.data.error, nope.data.error, 'same message, so IDs cannot be probed');
+
+  const ticket = await req('GET', ok.data.url);
+  assert.match(ticket.data, /id="ticket"/);
+  assert.match(ticket.data, /Confirmed · ₹/);
+  assert.match(ticket.data, /<svg[^>]*viewBox/);
+  assert.equal((await req('GET', '/my-booking')).status, 200);
 });

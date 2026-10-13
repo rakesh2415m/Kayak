@@ -6,6 +6,7 @@ Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking W
 - **Booking flow** (2a–2d): a bottom sheet with session, date and slot → guests and add-ons → details and advance payment → confirmation page (report time, map, add to calendar, WhatsApp, and the ad conversion event).
 - **Design:** a tropical "Lagoon" theme with a full-screen hero, animated waves, light-on-water and bubble effects, scroll-reveal animations, parallax, number counters and big image rows. Until you upload photos, the hero and session cards show illustrated animated sea scenes. All motion switches off for visitors who choose "reduce motion" on their device.
 - **Blog** (`/blog`): SEO articles with Google structured data, `sitemap.xml`, `robots.txt` and an RSS feed. The three starter articles are saved as **drafts**: check them, add photos, then publish.
+- **Guest tickets:** the booking page is the guest's ticket. It shows a QR code, a live status (confirmed / amount due / checked in / cancelled), report time and meeting point, and has *Print / save ticket* (PDF), *Add to calendar* and *Copy ticket link*. Guests can re-open it any time at **`/my-booking`** with their booking ID and WhatsApp number; there's no account or password to remember.
 - **Admin panel** (`/admin`), 3a–3f plus **Blog**:
   - **Bookings:** filters, stats, CSV export and walk-ins.
   - **Booking detail drawer:** WhatsApp, reschedule, check-in, balance paid, cancel and refund.

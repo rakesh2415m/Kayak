@@ -5,6 +5,7 @@ const B = require('./booking');
 const pay = require('./payments');
 const views = require('./views');
 const media = require('./media');
+const QRCode = require('qrcode');
 
 const router = express.Router();
 
@@ -52,10 +53,27 @@ router.get('/robots.txt', (req, res) => {
   res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /booking/\nDisallow: /review\n\nSitemap: ${siteUrl(req)}/sitemap.xml\n`);
 });
 
-router.get('/booking/:code', (req, res) => {
+router.get('/booking/:code', async (req, res) => {
   const b = bookingByCode(req.params.code, req.query.t);
-  if (!b) return res.status(404).type('html').send('<p style="font-family:sans-serif;padding:40px">Booking not found. Check the link you received, or message us on WhatsApp.</p>');
-  res.set('Cache-Control', 'no-store').type('html').send(views.confirmation(B.decorate(b)));
+  if (!b) return res.status(404).type('html').send('<p style="font-family:sans-serif;padding:40px">Booking not found. Check the link you received, or <a href="/my-booking">find your booking</a>.</p>');
+  let qr = '';
+  try { qr = await QRCode.toString(`${siteUrl(req)}/booking/${b.code}?t=${b.token}`, { type: 'svg', margin: 0, errorCorrectionLevel: 'M', color: { dark: '#062a3aff', light: '#ffffff00' } }); } catch { /* ticket still works without QR */ }
+  res.set('Cache-Control', 'no-store').set('X-Robots-Tag', 'noindex').type('html').send(views.confirmation(B.decorate(b), { qr }));
+});
+
+router.get('/my-booking', (req, res) => res.type('html').send(views.myBookingPage()));
+
+// Guests re-open their ticket with booking ID + the phone number they booked with.
+router.post('/api/find-booking', limit(8, 60_000), (req, res) => {
+  let code = String(req.body?.code || '').toUpperCase().replace(/[^A-Z0-9-]/g, '');
+  if (/^\d+$/.test(code)) code = 'NB-' + code;
+  if (/^NB\d+$/.test(code)) code = 'NB-' + code.slice(2);
+  const digits = String(req.body?.phone || '').replace(/\D/g, '').slice(-10);
+  const b = code && digits.length === 10 ? db.prepare('SELECT * FROM bookings WHERE code = ?').get(code) : null;
+  if (!b || String(b.phone).replace(/\D/g, '').slice(-10) !== digits) {
+    return bad(res, 'We could not find a booking with that ID and number. Check both, or message us on WhatsApp.', 404);
+  }
+  res.json({ url: `/booking/${b.code}?t=${b.token}` });
 });
 
 router.get('/booking/:code/calendar.ics', (req, res) => {

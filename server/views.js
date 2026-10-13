@@ -122,7 +122,7 @@ function header(st, { home = false } = {}) {
   return `<header class="site-nav ${home ? 'on-hero' : 'solid'}" id="siteNav">
   <a class="logo" href="/">${ICONS.logo}<span>${e(st.brand_name)}</span></a>
   <nav class="nav-links" id="navLinks" aria-label="Main">
-    <a href="${h}#sessions">Sessions</a><a href="${h}#how">How it works</a><a href="${h}#reviews">Reviews</a><a href="/blog">Blog</a><a href="${h}#faq">FAQ</a>
+    <a href="${h}#sessions">Sessions</a><a href="${h}#how">How it works</a><a href="${h}#reviews">Reviews</a><a href="/blog">Blog</a><a href="${h}#faq">FAQ</a><a href="/my-booking" class="nav-my">My booking</a>
   </nav>
   <div class="nav-actions">
     <a class="icon-btn" href="tel:${e(st.phone.replace(/\s/g, ''))}" aria-label="Call us">${ICONS.phone}</a>
@@ -137,7 +137,7 @@ function footer(st) {
   ${waves('#04141f', { cls: 'waves-footer' })}
   <div class="container footer-inner">
     <div class="footer-brand"><a class="logo" href="/">${ICONS.logo}<span>${e(st.brand_name)}</span></a><p>${e(st.hero_overline)}</p><p class="small">${e(st.meeting_point)}</p></div>
-    <div><h4>Explore</h4><a href="/#sessions">Sessions</a><a href="/#gallery">Gallery</a><a href="/#reviews">Reviews</a><a href="/blog">Blog</a><a href="/#faq">FAQ</a></div>
+    <div><h4>Explore</h4><a href="/my-booking">My booking</a><a href="/#sessions">Sessions</a><a href="/#gallery">Gallery</a><a href="/#reviews">Reviews</a><a href="/blog">Blog</a><a href="/#faq">FAQ</a></div>
     <div><h4>Contact</h4><a href="tel:${e(st.phone.replace(/\s/g, ''))}">${e(st.phone)}</a>${st.email ? `<a href="mailto:${e(st.email)}">${e(st.email)}</a>` : ''}<a href="${e(waLink(st.whatsapp))}" target="_blank" rel="noopener">WhatsApp</a><a href="/review">Leave a review</a></div>
   </div>
   <div class="container footer-base"><span>© ${new Date().getFullYear()} ${e(st.brand_name)}</span><a href="/admin/" rel="nofollow">Staff login</a></div>
@@ -500,49 +500,79 @@ function reportTime(b, session) {
   return B.fmtTime(t);
 }
 
-function confirmation(b) {
+function confirmation(b, { qr = '' } = {}) {
   const st = getSettings();
   const s = B.getSession(b.session_id);
   const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent(st.map_query)}&output=embed`;
   const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(st.map_query)}`;
   const ok = b.status === 'confirmed';
+  const past = ok && b.date < B.todayIST();
   const waText = `Hi! My booking ID is ${b.code} (${b.session_name}, ${b.date_label} ${b.time_label}).`;
   const conv = { code: b.code, value: b.paid, total: b.total, currency: 'INR', session: b.session_name };
+  // One clear status line for the guest.
+  const status = b.status === 'cancelled' ? { cls: 'st-cancel', text: b.refunded ? `Cancelled · ${B.inr(b.refunded)} refunded` : 'Cancelled' }
+    : b.status === 'pending' ? { cls: 'st-pending', text: 'Payment pending' }
+    : b.checked_in ? { cls: 'st-in', text: 'Checked in · enjoy your paddle!' }
+    : past ? { cls: 'st-done', text: 'Trip completed' }
+    : b.balance > 0 ? { cls: 'st-ok', text: `Confirmed · ${B.inr(b.balance)} due at the jetty` }
+    : { cls: 'st-ok', text: 'Confirmed · fully paid' };
+  const title = b.status === 'cancelled' ? 'Booking cancelled' : b.status === 'pending' ? 'Payment pending' : past ? 'Thanks for paddling!' : b.checked_in ? "You're checked in!" : "You're booked!";
   const body = `
 ${header(st)}
 <main>
 <section class="confirm-top">
-  ${ok ? '<div class="confetti" aria-hidden="true">' + Array.from({ length: 24 }, (_, i) => `<i style="--x:${(i * 41) % 100}%;--d:${(i % 6) * .15}s;--c:${['#ff6b4a', '#ffc857', '#2fd4cc', '#fff'][i % 4]}"></i>`).join('') + '</div>' : ''}
+  ${ok && !past ? '<div class="confetti" hidden aria-hidden="true">' + Array.from({ length: 24 }, (_, i) => `<i style="--x:${(i * 41) % 100}%;--d:${(i % 6) * .15}s;--c:${['#ff6b4a', '#ffc857', '#2fd4cc', '#fff'][i % 4]}"></i>`).join('') + '</div>' : ''}
   <div class="container narrow confirm-hero">
-    <div class="tick ${ok ? '' : 'tick-pending'}">${ok ? ICONS.check : '…'}</div>
-    <h1>${ok ? "You're booked!" : b.status === 'cancelled' ? 'Booking cancelled' : 'Payment pending'}</h1>
-    <p>Booking ID · <b>${e(b.code)}</b><br>${ok ? 'Save this page. We will also confirm on WhatsApp.' : b.status === 'pending' ? 'We have not received your payment yet. If money was debited, message us on WhatsApp.' : ''}</p>
+    <div class="tick ${ok ? '' : 'tick-pending'}">${ok ? ICONS.check : b.status === 'cancelled' ? '✕' : '…'}</div>
+    <h1>${title}</h1>
+    <p>${ok && !past ? 'This page is your ticket. Bookmark it, save it as a PDF, or open it any time from <b>My booking</b>.' : b.status === 'pending' ? 'We have not received your payment yet. If money was debited, message us on WhatsApp.' : past ? 'We hope you loved it. A quick review helps other travellers find us.' : ''}</p>
   </div>
   ${waves('#fffaf2')}
 </section>
 <div class="confirm container narrow">
-  <div class="card confirm-card">
-    <div class="overline">${e(b.session_name)}</div>
-    <h2 class="h3">${e(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long' }))} · ${e(b.time_label)}</h2>
-    <p class="report">${ICONS.clock}<b>Report by ${e(reportTime(b, s))}</b></p>
-    <p class="meet-line">${ICONS.pin}<span>Meet at: ${e(st.meeting_point)}</span></p>
-    <div class="map"><iframe title="Map to meeting point" src="${e(mapSrc)}" loading="lazy"></iframe></div>
-    <dl class="kv">
-      <dt>Guests</dt><dd>${b.adults} adult${b.adults !== 1 ? 's' : ''}${b.kids ? ` · ${b.kids} kid${b.kids > 1 ? 's' : ''}` : ''} · ${b.kayak === 'single' ? 'Single kayak' : 'Double kayak'}</dd>
-      ${b.addons.length ? `<dt>Add-ons</dt><dd>${e(b.addons.join(', '))}${b.hotel ? ` (${e(b.hotel)})` : ''}</dd>` : ''}
-      <dt>Total</dt><dd>${B.inr(b.total)}</dd>
-      <dt>Paid</dt><dd>${B.inr(b.paid)}</dd>
-      <dt>Balance at jetty</dt><dd><b>${B.inr(b.balance)}</b></dd>
-    </dl>
-  </div>
-  <div class="overline" style="margin-top:28px">Bring</div>
-  <div class="chip-row">${lines(st.bring_list).map(l => `<span class="chip">${ICONS.check}${e(l)}</span>`).join('')}</div>
-  <div class="grid2" style="margin-top:20px">
+  <article class="ticket ${b.status === 'cancelled' ? 'is-cancelled' : ''}" id="ticket" aria-label="Booking ticket">
+    <div class="ticket-main">
+      <div class="ticket-brand">${ICONS.logo}<span>${e(st.brand_name)}</span></div>
+      <div class="overline">${e(b.session_name)}</div>
+      <h2>${e(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long' }))}<br><span>${e(b.time_label)}</span></h2>
+      <div class="ticket-status ${status.cls}">${e(status.text)}</div>
+      <dl class="ticket-grid">
+        <div><dt>Booking ID</dt><dd>${e(b.code)}</dd></div>
+        <div><dt>Report by</dt><dd>${e(reportTime(b, s))}</dd></div>
+        <div><dt>Guest</dt><dd>${e(b.name)}</dd></div>
+        <div><dt>Guests</dt><dd>${b.adults} adult${b.adults !== 1 ? 's' : ''}${b.kids ? ` + ${b.kids} kid${b.kids > 1 ? 's' : ''}` : ''}</dd></div>
+        <div><dt>Kayak</dt><dd>${b.kayak === 'single' ? 'Single' : 'Double'}</dd></div>
+        <div><dt>Paid</dt><dd>${B.inr(b.paid)} of ${B.inr(b.total)}</dd></div>
+        ${b.addons.length ? `<div class="wide"><dt>Add-ons</dt><dd>${e(b.addons.join(', '))}${b.hotel ? ` (pickup: ${e(b.hotel)})` : ''}</dd></div>` : ''}
+        <div class="wide"><dt>Meeting point</dt><dd>${e(st.meeting_point)}</dd></div>
+      </dl>
+    </div>
+    <div class="ticket-stub">
+      ${qr ? `<div class="qr" role="img" aria-label="QR code for booking ${e(b.code)}">${qr}</div>` : ''}
+      <b>${e(b.code)}</b>
+      <span>Show this at the jetty</span>
+      ${b.balance > 0 && ok ? `<span class="due">Due: ${B.inr(b.balance)}</span>` : ''}
+    </div>
+  </article>
+
+  <div class="ticket-actions no-print">
+    <button class="btn btn-primary" type="button" onclick="window.print()">Print / save ticket</button>
     <a class="btn btn-secondary" href="/booking/${e(b.code)}/calendar.ics?t=${e(b.token)}">Add to calendar</a>
     <a class="btn btn-secondary" href="${e(dirUrl)}" target="_blank" rel="noopener">Get directions</a>
+    <button class="btn btn-secondary" type="button" id="copyLink">Copy ticket link</button>
   </div>
-  <a class="btn btn-primary btn-block btn-lg" style="margin-top:12px" href="${e(waLink(st.whatsapp, waText))}" target="_blank" rel="noopener">${ICONS.wa} Chat on WhatsApp</a>
-  <p class="muted small center" style="margin-top:16px">${e(st.policy_text)}</p>
+
+  <div class="no-print">
+    ${past ? `<a class="btn btn-primary btn-block btn-lg" style="margin-top:20px" href="/review?b=${e(b.code)}&t=${e(b.token)}">★ Leave a review</a>` : ''}
+    <div class="card confirm-card" style="margin-top:24px">
+      <p class="meet-line">${ICONS.pin}<span>Meet at: ${e(st.meeting_point)}</span></p>
+      <div class="map"><iframe title="Map to meeting point" src="${e(mapSrc)}" loading="lazy"></iframe></div>
+    </div>
+    <div class="overline" style="margin-top:28px">Bring</div>
+    <div class="chip-row">${lines(st.bring_list).map(l => `<span class="chip">${ICONS.check}${e(l)}</span>`).join('')}</div>
+    <a class="btn btn-primary btn-block btn-lg" style="margin-top:20px" href="${e(waLink(st.whatsapp, waText))}" target="_blank" rel="noopener">${ICONS.wa} Need to change something? WhatsApp us</a>
+    <p class="muted small center" style="margin-top:16px">${e(st.policy_text)}</p>
+  </div>
 </div>
 </main>
 ${footer(st)}
@@ -551,13 +581,20 @@ ${ok ? `<script>
   var c = ${json(conv)};
   var key = 'conv_' + c.code;
   try { if (localStorage.getItem(key)) return; localStorage.setItem(key, '1'); } catch (_) {}
+  var cf = document.querySelector('.confetti'); if (cf) cf.hidden = false;
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event: 'booking_confirmed', booking_id: c.code, value: c.total, currency: c.currency, session: c.session });
   if (typeof window.fbq === 'function') window.fbq('track', 'Purchase', { value: c.total, currency: c.currency });
   window.__conversion = c;
 })();
 </script>
-${st.conversion_code || ''}` : ''}`;
+${st.conversion_code || ''}` : ''}
+<script>
+document.getElementById('copyLink').addEventListener('click', function () {
+  var b = this, u = location.href;
+  (navigator.clipboard ? navigator.clipboard.writeText(u) : Promise.reject()).then(function () { b.textContent = 'Link copied ✓'; }, function () { prompt('Copy your ticket link:', u); });
+});
+</script>`;
   return layout({ title: `Booking ${b.code} · ${st.brand_name}`, body, st, bodyClass: 'page-confirm', extraHead: '<meta name="robots" content="noindex">' });
 }
 
@@ -591,6 +628,41 @@ ${footer(st)}
   return layout({ title: `Leave a review · ${st.brand_name}`, body, st, bodyClass: 'page-review', extraHead: '<meta name="robots" content="noindex">' });
 }
 
+function myBookingPage() {
+  const st = getSettings();
+  const body = `
+${header(st)}
+<main>
+${pageHero(st, { overline: `${ICONS.wave}Already booked?`, title: 'Find my <em>booking</em>', sub: 'See your ticket, report time and meeting point. Use the booking ID from your confirmation (e.g. NB-1042) and the WhatsApp number you booked with.' })}
+<div class="container narrow review-page">
+  <form class="card form-card" id="findForm" autocomplete="on">
+    <label class="field-label" for="fbCode">Booking ID</label>
+    <input class="input" id="fbCode" name="code" required placeholder="NB-1042" autocapitalize="characters" style="text-transform:uppercase">
+    <label class="field-label" for="fbPhone">WhatsApp number</label>
+    <input class="input" id="fbPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+91 98XXX XXXXX">
+    <button class="btn btn-primary btn-block btn-lg" type="submit">Show my ticket</button>
+    <p class="form-msg" role="status"></p>
+  </form>
+  <p class="muted small center" style="margin-top:18px">Can't find your booking ID? <a href="${e(waLink(st.whatsapp, 'Hi! I need help finding my booking.'))}" target="_blank" rel="noopener">Message us on WhatsApp</a> and we'll send your ticket link.</p>
+</div>
+</main>
+${footer(st)}
+<script>
+(function () {
+  var f = document.getElementById('findForm'), msg = f.querySelector('.form-msg');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = f.querySelector('button'); btn.disabled = true; msg.className = 'form-msg'; msg.textContent = 'Looking up…';
+    fetch('/api/find-booking', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ code: f.code.value, phone: f.phone.value }) })
+      .then(function (r) { return r.json().then(function (d) { if (!r.ok) throw new Error(d.error || 'Not found'); return d; }); })
+      .then(function (d) { location.href = d.url; })
+      .catch(function (err) { btn.disabled = false; msg.className = 'form-msg err'; msg.textContent = err.message; });
+  });
+})();
+</script>`;
+  return layout({ title: `My booking · ${st.brand_name}`, description: 'Find your kayak booking ticket.', body, st, bodyClass: 'page-review', extraHead: '<meta name="robots" content="noindex">' });
+}
+
 function ics(b) {
   const st = getSettings();
   const s = B.getSession(b.session_id);
@@ -607,4 +679,4 @@ function ics(b) {
     'END:VEVENT', 'END:VCALENDAR', ''].join('\r\n');
 }
 
-module.exports = { landing, blogIndex, blogPost, sitemap, rss, confirmation, reviewPage, ics, e, waLink };
+module.exports = { landing, blogIndex, blogPost, sitemap, rss, confirmation, reviewPage, myBookingPage, ics, e, waLink };
