@@ -111,6 +111,7 @@
     new IntersectionObserver(function (entries) {
       var show = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
       bar.classList.toggle('show', show);
+      document.body.classList.toggle('past-hero', show);
       bar.setAttribute('aria-hidden', !show);
       bar.querySelectorAll('a,button').forEach(function (el) { el.tabIndex = show ? 0 : -1; });
     }).observe(widget);
