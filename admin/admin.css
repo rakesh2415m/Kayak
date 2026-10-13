@@ -214,3 +214,17 @@ textarea.input { resize: vertical; min-height: 70px; }
   .grid3 { grid-template-columns: 1fr; }
   .sess-fields .wide { grid-column: 1 / -1; }
 }
+
+/* ---------- blog editor ---------- */
+.editor { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start; }
+.ed-title { font-family: var(--font-display); font-size: 26px; min-height: 56px; }
+.ed-body { font: 15px/1.7 ui-monospace, 'SFMono-Regular', Menlo, monospace; min-height: 460px; }
+.md-toolbar { display: flex; flex-wrap: wrap; gap: 6px; padding: 6px 0; }
+.md-toolbar .btn { min-height: 30px; }
+.cover-prev { aspect-ratio: 16/9; background: var(--sand-200); border-radius: var(--radius-sm); overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; }
+.cover-prev img { width: 100%; height: 100%; object-fit: cover; margin: -8px; max-width: none; width: calc(100% + 16px); height: calc(100% + 16px); }
+.serp { border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: 12px; background: #fff; font-family: arial, sans-serif; }
+.serp-url { font-size: 12px; color: #4d5156; }
+.serp-title { font-size: 18px; color: #1a0dab; margin: 2px 0; line-height: 1.3; }
+.serp-desc { font-size: 13px; color: #4d5156; line-height: 1.5; }
+@media (max-width: 1000px) { .editor { grid-template-columns: 1fr; } }

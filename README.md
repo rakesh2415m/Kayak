@@ -4,7 +4,9 @@ Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking W
 
 - **Website** (`/`): mobile-first ad landing page. It combines the story scroll from 1a with the "book in 60 seconds" widget from 1b, plus a WhatsApp button, session cards you can deep-link to, and a comparison table.
 - **Booking flow** (2a–2d): a bottom sheet with session, date and slot → guests and add-ons → details and advance payment → confirmation page (report time, map, add to calendar, WhatsApp, and the ad conversion event).
-- **Admin panel** (`/admin`), 3a–3f:
+- **Design:** a tropical "Lagoon" theme with a full-screen hero, animated waves, light-on-water and bubble effects, scroll-reveal animations, parallax, number counters and big image rows. Until you upload photos, the hero and session cards show illustrated animated sea scenes. All motion switches off for visitors who choose "reduce motion" on their device.
+- **Blog** (`/blog`): SEO articles with Google structured data, `sitemap.xml`, `robots.txt` and an RSS feed. The three starter articles are saved as **drafts**: check them, add photos, then publish.
+- **Admin panel** (`/admin`), 3a–3f plus **Blog**:
   - **Bookings:** filters, stats, CSV export and walk-ins.
   - **Booking detail drawer:** WhatsApp, reschedule, check-in, balance paid, cancel and refund.
   - **Calendar & slots:** close slots for weather and see which guests to notify.
@@ -42,6 +44,12 @@ Data lives in `data/` (SQLite file + uploaded photos). Back this folder up. Set 
 
 Without Razorpay keys the site runs in **test mode**: a banner says so and checkout simulates the payment. Add `rzp_test_…` keys in Admin → Settings to try real Razorpay Checkout, then switch to live keys. Payments are verified on the server by signature. Refunds from the cancel dialog go through Razorpay when the payment was made online.
 
+## SEO
+
+- In Admin → Settings → *Website address*, set your real domain, e.g. `https://northbaykayak.in`.
+- Submit `https://your-domain/sitemap.xml` in Google Search Console.
+- Write articles in Admin → Blog. The editor shows a live Google-result preview and a word count; aim for 600+ words with your own photos.
+
 ## Ads and tracking
 
 - Deep links: `/#mangrove` scrolls to and highlights a session card; `/?book=glass-bottom` opens the booking sheet with that session selected.
@@ -56,7 +64,8 @@ WhatsApp messages (confirmation, reschedule, weather cancellation, review link) 
 
 ```
 server/   Express app: db.js (schema + seed), booking.js (availability/pricing), views.js (server-rendered pages),
-          public-routes.js, admin-routes.js, auth.js, payments.js (Razorpay), media.js (uploads + WebP compression)
+          public-routes.js, admin-routes.js, auth.js, payments.js (Razorpay), media.js (uploads + WebP compression),
+          markdown.js (safe Markdown for blog posts), starter-posts.js
 public/   site CSS/JS (tokens.css = design-system tokens), booking sheet in js/book.js
 admin/    admin SPA (no build step)
 test/     API tests (node --test)

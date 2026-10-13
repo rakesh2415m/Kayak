@@ -30,8 +30,27 @@ function bookingByCode(code, token) {
   return b;
 }
 
+// Absolute site URL for canonical links, sitemap and share links.
+function siteUrl(req) {
+  const set = getSettings().site_url.trim().replace(/\/+$/, '');
+  return set || `${req.protocol}://${req.get('host')}`;
+}
+
 // ---------- pages ----------
-router.get('/', (req, res) => res.type('html').send(views.landing()));
+router.get('/', (req, res) => res.type('html').send(views.landing(siteUrl(req))));
+
+router.get('/blog', (req, res) => res.type('html').send(views.blogIndex(siteUrl(req), Number(req.query.page) || 1)));
+router.get('/blog/rss.xml', (req, res) => res.type('application/rss+xml').send(views.rss(siteUrl(req))));
+router.get('/blog/:slug', (req, res) => {
+  const post = db.prepare("SELECT * FROM posts WHERE slug = ? AND status = 'published' AND published_at <= datetime('now')").get(String(req.params.slug));
+  if (!post) return res.status(404).type('html').send('<p style="font-family:sans-serif;padding:40px">Article not found. <a href="/blog">See all articles</a></p>');
+  res.type('html').send(views.blogPost(siteUrl(req), post));
+});
+
+router.get('/sitemap.xml', (req, res) => res.type('application/xml').send(views.sitemap(siteUrl(req))));
+router.get('/robots.txt', (req, res) => {
+  res.type('text/plain').send(`User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /booking/\nDisallow: /review\n\nSitemap: ${siteUrl(req)}/sitemap.xml\n`);
+});
 
 router.get('/booking/:code', (req, res) => {
   const b = bookingByCode(req.params.code, req.query.t);

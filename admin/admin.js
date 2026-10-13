@@ -100,7 +100,7 @@
   // ---------- shell ----------
   var NAV = [
     ['bookings', 'Bookings'], ['calendar', 'Calendar & slots'], ['sessions', 'Sessions & prices'], ['photos', 'Photos'],
-    ['reviews', 'Reviews'], ['content', 'FAQ & text'], ['settings', 'Settings'], ['jetty', 'Jetty check-in'],
+    ['reviews', 'Reviews'], ['blog', 'Blog'], ['content', 'FAQ & text'], ['settings', 'Settings'], ['jetty', 'Jetty check-in'],
   ];
   function shell(active, title, actionsHtml) {
     var pending = ctx.stats ? ctx.stats.pendingReviews : 0;
@@ -117,6 +117,12 @@
       banner + (title ? '<div class="page-head"><h1>' + esc(title) + '</h1>' + (actionsHtml || '') + '</div>' : '') +
       '<div class="view" id="view"></div></div></div>';
     $('[data-menu]').onclick = function () { $('#side').classList.toggle('open'); };
+    $('#side').addEventListener('click', function (e) {
+      var a = e.target.closest('a.nav');
+      if (!a) return;
+      if (a.getAttribute('href') === '#/blog') blog.editing = null;
+      if (a.getAttribute('href') === location.hash) { e.preventDefault(); route(); }
+    });
     $('[data-logout]').onclick = function () { api('/logout', { body: {} }).then(showLogin); };
     return $('#view');
   }
@@ -767,6 +773,174 @@
   }
 
   // ======================================================================
+  // BLOG (SEO articles)
+  // ======================================================================
+  var blog = { editing: null };
+  function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80); }
+
+  function viewBlog() {
+    if (blog.editing) return viewPostEditor(blog.editing);
+    var v = shell('blog', 'Blog', '<a class="btn" href="/blog" target="_blank" rel="noopener">View blog ↗</a><button class="btn primary" data-new>+ New article</button>');
+    v.innerHTML = '<div class="page"><p class="muted" style="margin:0">Articles help people find you on Google, e.g. “kayaking in Andaman” or “how to reach North Bay”. Write for travellers, use the words they search for, and add your own photos. Published articles appear at <b>/blog</b>, on the landing page and in the sitemap.</p><div class="card" id="list"><div class="empty">Loading…</div></div></div>';
+    api('/posts').then(function (d) {
+      $('#list').innerHTML = d.posts.length ? '<table class="tbl"><thead><tr><th>Article</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>' + d.posts.map(function (p) {
+        var live = p.status === 'published';
+        var future = live && p.published_at > new Date().toISOString().slice(0, 19).replace('T', ' ');
+        return '<tr class="b" data-id="' + p.id + '" tabindex="0"><td><div class="row">' + (p.cover ? '<img src="/uploads/' + encodeURIComponent(p.cover) + '" alt="" style="width:64px;height:44px;object-fit:cover;border-radius:6px">' : '<span class="tag" style="width:64px;height:44px;display:inline-flex;align-items:center;justify-content:center">no cover</span>') +
+          '<div><b>' + esc(p.title) + '</b><div class="sub">/blog/' + esc(p.slug) + ' · ' + Math.round(p.chars / 6 / 200 || 1) + ' min read</div></div></div></td>' +
+          '<td><span class="status ' + (live ? (future ? 'st-Due' : 'st-Paid') : 'st-Awaiting') + '">' + (live ? (future ? 'Scheduled' : 'Published') : 'Draft') + '</span></td>' +
+          '<td class="sub">' + esc((p.published_at || p.updated_at).slice(0, 10)) + '</td>' +
+          '<td>' + (live ? '<a class="btn sm ghost" href="/blog/' + encodeURIComponent(p.slug) + '" target="_blank" rel="noopener">Open ↗</a>' : '') + '</td></tr>';
+      }).join('') + '</tbody></table>' : '<div class="empty">No articles yet. Click “New article” to write your first one.</div>';
+    }).catch(fail);
+    v.onclick = function (e) {
+      if (e.target.closest('a')) return;
+      var tr = e.target.closest('tr.b');
+      if (tr) { blog.editing = Number(tr.getAttribute('data-id')); viewBlog(); }
+    };
+    v.onkeydown = function (e) { var tr = e.target.closest('tr.b'); if (tr && e.key === 'Enter') { blog.editing = Number(tr.getAttribute('data-id')); viewBlog(); } };
+    $('[data-new]').onclick = function () { blog.editing = 'new'; viewBlog(); };
+  }
+
+  function viewPostEditor(id) {
+    var v = shell('blog', id === 'new' ? 'New article' : 'Edit article',
+      '<button class="btn" data-back>← All articles</button><button class="btn" data-preview>Preview</button><button class="btn" data-save="draft">Save draft</button><button class="btn primary" data-save="published">Publish</button>');
+    var load = id === 'new' ? Promise.resolve({ post: { title: '', slug: '', excerpt: '', body: '', tags: '', meta_title: '', meta_description: '', status: 'draft', published_at: '', cover: '' } }) : api('/posts/' + id);
+    load.then(function (d) {
+      var p = d.post;
+      var slugTouched = !!p.slug;
+      var pubLocal = p.published_at ? p.published_at.replace(' ', 'T').slice(0, 16) : '';
+      v.innerHTML = '<div class="page"><div class="editor">' +
+        '<div class="stack ed-main">' +
+        '<input class="input ed-title" name="title" placeholder="Article title, e.g. Best time for kayaking in Andaman" value="' + esc(p.title) + '" aria-label="Title">' +
+        '<label class="f">Link<span class="hint">' + esc(location.origin) + '/blog/<b id="slugShow">' + esc(p.slug) + '</b></span><input class="input" name="slug" value="' + esc(p.slug) + '" placeholder="auto from title"></label>' +
+        '<label class="f">Short summary<span class="hint">Shown on blog cards and under the title (1–2 sentences)</span><textarea class="input" name="excerpt" rows="2" maxlength="400">' + esc(p.excerpt) + '</textarea></label>' +
+        '<div class="f"><span>Article</span><div class="md-toolbar" role="toolbar" aria-label="Formatting">' +
+        [['h2', 'H2', 'Section heading'], ['h3', 'H3', 'Sub-heading'], ['b', '<b>B</b>', 'Bold'], ['i', '<i>I</i>', 'Italic'], ['link', '🔗 Link', 'Link'], ['ul', '• List', 'Bullet list'], ['ol', '1. List', 'Numbered list'], ['quote', '❝ Quote', 'Quote']].map(function (t) {
+          return '<button type="button" class="btn sm" data-md="' + t[0] + '" title="' + t[2] + '">' + t[1] + '</button>';
+        }).join('') + '<label class="btn sm" title="Insert photo">🖼 Photo<input type="file" accept="image/*" id="mdImg" class="hidden"></label></div>' +
+        '<textarea class="input ed-body" name="body" rows="22" spellcheck="true" placeholder="Write your article. Use ## for section headings, **bold**, - for lists.">' + esc(p.body) + '</textarea>' +
+        '<span class="hint" id="wc"></span></div>' +
+        '</div>' +
+        '<div class="stack ed-side">' +
+        '<div class="card pad stack"><h2>Publishing</h2><div class="row"><span class="status ' + (p.status === 'published' ? 'st-Paid' : 'st-Awaiting') + '">' + (p.status === 'published' ? 'Published' : 'Draft') + '</span></div>' +
+        '<label class="f">Publish date<span class="hint">Leave empty to use “now” when publishing. A future date schedules it.</span><input class="input" type="datetime-local" name="published_at" value="' + esc(pubLocal) + '"></label>' +
+        (id !== 'new' ? '<button class="btn danger sm" data-del type="button">Delete article</button>' : '') + '</div>' +
+        '<div class="card pad stack"><h2>Cover photo</h2><div class="cover-prev" id="coverPrev">' + (p.cover ? '<img src="/uploads/' + encodeURIComponent(p.cover) + '" alt="">' : '<span class="muted small">No cover yet. Wide photos (16:9) look best.</span>') + '</div>' +
+        '<div class="row"><label class="btn sm">Choose photo<input type="file" accept="image/*" name="cover" class="hidden" id="coverIn"></label>' + (p.cover ? '<label class="check small"><input type="checkbox" id="rmCover"> Remove</label>' : '') + '</div></div>' +
+        '<div class="card pad stack"><h2>Google (SEO)</h2>' +
+        '<label class="f">Search title<span class="hint"><span id="mtc"></span> · aim for under 60 characters</span><input class="input" name="meta_title" value="' + esc(p.meta_title) + '" placeholder="defaults to the article title"></label>' +
+        '<label class="f">Search description<span class="hint"><span id="mdc"></span> · aim for 120–160 characters</span><textarea class="input" name="meta_description" rows="3" maxlength="200" placeholder="defaults to the summary">' + esc(p.meta_description) + '</textarea></label>' +
+        '<label class="f">Tags<span class="hint">comma separated</span><input class="input" name="tags" value="' + esc(p.tags) + '" placeholder="kayaking, andaman, north bay"></label>' +
+        '<div class="serp" aria-label="Google result preview"><div class="serp-url">' + esc(location.host) + ' › blog › <span id="serpSlug"></span></div><div class="serp-title" id="serpTitle"></div><div class="serp-desc" id="serpDesc"></div></div>' +
+        '</div></div></div></div>';
+
+      var form = $('.editor', v);
+      var F = function (n) { return $('[name="' + n + '"]', form); };
+      var body = F('body');
+      function refresh() {
+        if (!slugTouched) F('slug').value = slugify(F('title').value);
+        var slug = slugify(F('slug').value);
+        $('#slugShow').textContent = slug;
+        $('#serpSlug').textContent = slug;
+        var t = F('meta_title').value || F('title').value || 'Article title';
+        var dsc = F('meta_description').value || F('excerpt').value || 'Your summary appears here in Google results.';
+        $('#serpTitle').textContent = t.length > 62 ? t.slice(0, 60) + '…' : t;
+        $('#serpDesc').textContent = dsc.length > 162 ? dsc.slice(0, 160) + '…' : dsc;
+        $('#mtc').textContent = (F('meta_title').value || F('title').value).length + ' characters';
+        $('#mdc').textContent = (F('meta_description').value || F('excerpt').value).length + ' characters';
+        var words = body.value.trim() ? body.value.trim().split(/\s+/).length : 0;
+        $('#wc').textContent = words + ' words · about ' + Math.max(1, Math.round(words / 200)) + ' min read' + (words && words < 300 ? ' · Google favours articles of 600+ words' : '');
+      }
+      form.oninput = function (e) { if (e.target.name === 'slug') slugTouched = !!e.target.value; refresh(); };
+      refresh();
+
+      $('#coverIn').onchange = function (e) {
+        var file = e.target.files[0];
+        if (file) $('#coverPrev').innerHTML = '<img src="' + URL.createObjectURL(file) + '" alt="">';
+      };
+
+      // Markdown toolbar
+      function wrap(before, after, placeholder) {
+        var s = body.selectionStart, en = body.selectionEnd;
+        var sel = body.value.slice(s, en) || placeholder;
+        body.setRangeText(before + sel + after, s, en, 'end');
+        body.focus(); refresh();
+      }
+      function linePrefix(prefix) {
+        var s = body.selectionStart, en = body.selectionEnd;
+        var start = body.value.lastIndexOf('\n', s - 1) + 1;
+        var block = body.value.slice(start, en) || 'Text';
+        var out = block.split('\n').map(function (l, i) { return (prefix === '1. ' ? (i + 1) + '. ' : prefix) + l.replace(/^(#{1,4}\s|[-*]\s|\d+\.\s|>\s)/, ''); }).join('\n');
+        body.setRangeText(out, start, Math.max(en, start + block.length), 'end');
+        body.focus(); refresh();
+      }
+      $('.md-toolbar', v).onclick = function (e) {
+        var b = e.target.closest('[data-md]'); if (!b) return;
+        var k = b.getAttribute('data-md');
+        if (k === 'h2') linePrefix('## ');
+        else if (k === 'h3') linePrefix('### ');
+        else if (k === 'b') wrap('**', '**', 'bold text');
+        else if (k === 'i') wrap('*', '*', 'italic text');
+        else if (k === 'ul') linePrefix('- ');
+        else if (k === 'ol') linePrefix('1. ');
+        else if (k === 'quote') linePrefix('> ');
+        else if (k === 'link') { var url = prompt('Link address (https://… or /#mangrove)'); if (url) wrap('[', '](' + url + ')', 'link text'); }
+      };
+      $('#mdImg').onchange = function (e) {
+        var file = e.target.files[0]; if (!file) return;
+        var fd = new FormData(); fd.append('image', file);
+        toast('Uploading photo…');
+        api('/posts-image', { form: fd }).then(function (r) {
+          var alt = prompt('Describe the photo (helps Google and screen readers)', '') || '';
+          var s = body.selectionStart;
+          body.setRangeText('\n\n![' + alt.replace(/[\[\]]/g, '') + '](' + r.url + ')\n\n', s, s, 'end');
+          refresh(); toast('Photo added');
+        }).catch(fail);
+        e.target.value = '';
+      };
+
+      function collect(status) {
+        var fd = new FormData();
+        ['title', 'slug', 'excerpt', 'body', 'meta_title', 'meta_description', 'tags'].forEach(function (n) { fd.append(n, F(n).value); });
+        var pub = F('published_at').value;
+        fd.append('published_at', pub ? pub.replace('T', ' ') + ':00' : '');
+        fd.append('status', status);
+        var c = $('#coverIn').files[0];
+        if (c) fd.append('cover', c);
+        if ($('#rmCover') && $('#rmCover').checked) fd.append('remove_cover', 'true');
+        return fd;
+      }
+      $$('[data-save]').forEach(function (b) {
+        b.onclick = function () {
+          var status = b.getAttribute('data-save');
+          if (status === 'published' && body.value.trim().split(/\s+/).length < 50 && !confirm('This article is very short. Publish anyway?')) return;
+          b.disabled = true;
+          api(id === 'new' ? '/posts' : '/posts/' + id, { method: id === 'new' ? 'POST' : 'PUT', form: collect(status) }).then(function (r) {
+            toast(status === 'published' ? 'Published' : 'Draft saved');
+            blog.editing = r.post.id; viewBlog();
+          }).catch(function (err) { b.disabled = false; fail(err); });
+        };
+      });
+      $('[data-preview]').onclick = function () {
+        var w = window.open('', '_blank');
+        var bodyObj = { id: id === 'new' ? 0 : id };
+        ['title', 'slug', 'excerpt', 'body', 'meta_title', 'meta_description', 'tags', 'published_at'].forEach(function (n) { bodyObj[n] = F(n).value; });
+        fetch('/admin/api/posts-preview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(bodyObj) })
+          .then(function (r) { return r.text(); })
+          .then(function (html) { if (w) { w.document.open(); w.document.write(html); w.document.close(); } })
+          .catch(function () { if (w) w.close(); toast('Preview failed', true); });
+      };
+      $('[data-back]').onclick = function () { blog.editing = null; viewBlog(); };
+      var del = $('[data-del]', v);
+      if (del) del.onclick = function () {
+        if (!confirm('Delete this article permanently?')) return;
+        api('/posts/' + id, { method: 'DELETE' }).then(function () { toast('Deleted'); blog.editing = null; viewBlog(); }).catch(fail);
+      };
+    }).catch(function (e) { fail(e); blog.editing = null; });
+  }
+
+  // ======================================================================
   // FAQ & TEXT
   // ======================================================================
   function viewContent() {
@@ -779,6 +953,7 @@
     v.innerHTML = '<div class="page"><form class="card pad stack" id="txt"><h2>Landing page text</h2>' +
       field('brand_name', 'Business name') + field('hero_overline', 'Small line above headline') + field('hero_title', 'Headline') + field('hero_subtitle', 'Sub-headline', '', 2) +
       field('rating_text', 'Rating badge', 'Leave empty to show the average of live reviews, or type e.g. “★ 4.9 · 300+ Google reviews”') +
+      field('stat_guests', 'Happy paddlers counter', 'Optional. Total guests so far, e.g. 3000. Shown as an animated “3,000+ happy paddlers” on the landing page. Leave empty to hide.') +
       '<div class="grid2">' + field('trust_points', 'Trust points', 'One per line: Title|short detail', 4) + field('how_it_works', 'How it works', 'One step per line', 4) +
       field('included', 'Included', 'One per line', 5) + field('bring_list', 'What to bring (confirmation page)', 'One per line', 5) + '</div>' +
       field('policy_text', 'Cancellation line', 'Shown in checkout and on the confirmation page') +
@@ -826,6 +1001,9 @@
         '<form class="card pad stack" data-settings><h2>Contact &amp; meeting point</h2><div class="grid2">' +
         f('whatsapp', 'WhatsApp number', 'With country code, digits only, e.g. 919876543210') + f('phone', 'Phone (shown on site)') + f('email', 'Email (optional)') +
         f('map_query', 'Google Maps search for the jetty') + '</div>' + f('meeting_point', 'Meeting point (shown to guests)') +
+        '<div><button class="btn primary" type="submit">Save</button></div></form>' +
+        '<form class="card pad stack" data-settings><h2>Website address (SEO)</h2>' +
+        f('site_url', 'Your website address', 'e.g. https://northbaykayak.in. Used in the Google sitemap (' + esc(location.origin) + '/sitemap.xml) and share links. Leave empty to detect automatically.') +
         '<div><button class="btn primary" type="submit">Save</button></div></form>' +
         '<form class="card pad stack" data-settings><h2>Payments · Razorpay</h2>' +
         '<p class="muted" style="margin:0">Status: <b>' + (meta.paymentMode === 'razorpay' ? 'Live payments on' : 'Test mode (payments simulated)') + '</b>' + (meta.envPayment ? ' · keys set by the server environment' : '') + '. Get keys from Razorpay Dashboard → Account &amp; Settings → API Keys. Use <i>rzp_test_…</i> keys first to try it.</p>' +
@@ -914,7 +1092,7 @@
   }
 
   // ---------- router ----------
-  var VIEWS = { bookings: viewBookings, calendar: viewCalendar, sessions: viewSessions, photos: viewPhotos, reviews: viewReviews, content: viewContent, settings: viewSettings, jetty: viewJetty };
+  var VIEWS = { bookings: viewBookings, calendar: viewCalendar, sessions: viewSessions, photos: viewPhotos, reviews: viewReviews, blog: viewBlog, content: viewContent, settings: viewSettings, jetty: viewJetty };
   function route() {
     var name = location.hash.replace(/^#\/?/, '').split('?')[0];
     if (!VIEWS[name]) name = window.innerWidth < 820 ? 'jetty' : 'bookings';

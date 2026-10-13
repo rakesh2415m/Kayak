@@ -186,3 +186,43 @@ test('photo upload is compressed and placed on the page', async () => {
   const bad = await fetch(base + '/admin/api/photos', { method: 'POST', headers: { Cookie: cookie }, body: txt });
   assert.equal(bad.status, 400);
 });
+
+test('blog: drafts hidden, publish shows on blog, landing and sitemap; markdown is escaped', async () => {
+  let list = await req('GET', '/admin/api/posts', null, { admin: true });
+  assert.equal(list.data.posts.length, 3, 'starter posts seeded');
+  assert.ok(list.data.posts.every(p => p.status === 'draft'));
+  assert.equal((await req('GET', '/blog/best-time-for-kayaking-in-andaman')).status, 404);
+
+  const fd = new FormData();
+  fd.append('title', 'Glass bottom kayaking <script>alert(1)</script>');
+  fd.append('excerpt', 'See the reef from above.');
+  fd.append('body', '## What you see\n\nCoral **and** fish. <img src=x onerror=alert(1)>\n\n- Clownfish\n- [Book](javascript:alert(1))');
+  fd.append('status', 'published');
+  const r = await fetch(base + '/admin/api/posts', { method: 'POST', headers: { Cookie: cookie }, body: fd });
+  const created = await r.json();
+  assert.equal(r.status, 200, JSON.stringify(created));
+  const slug = created.post.slug;
+  assert.equal(slug, 'glass-bottom-kayaking-alert-1');
+
+  const page = await req('GET', '/blog/' + slug);
+  assert.equal(page.status, 200);
+  assert.match(page.data, /<h2 id="what-you-see">What you see<\/h2>/);
+  assert.match(page.data, /<strong>and<\/strong>/);
+  assert.doesNotMatch(page.data, /<script>alert/);
+  assert.doesNotMatch(page.data, /<img src=x/);
+  assert.doesNotMatch(page.data, /href="javascript:/);
+  assert.match(page.data, /"@type":"BlogPosting"/);
+
+  assert.match((await req('GET', '/blog')).data, new RegExp(slug));
+  assert.match((await req('GET', '/')).data, new RegExp('/blog/' + slug));
+  assert.match((await req('GET', '/sitemap.xml')).data, new RegExp(`/blog/${slug}</loc>`));
+  assert.match((await req('GET', '/robots.txt')).data, /Disallow: \/admin/);
+  assert.match((await req('GET', '/blog/rss.xml')).data, /<rss/);
+
+  // unpublish → gone
+  const up = new FormData();
+  for (const k of ['title', 'excerpt', 'body']) up.append(k, created.post[k]);
+  up.append('slug', slug); up.append('status', 'draft');
+  await fetch(base + '/admin/api/posts/' + created.post.id, { method: 'PUT', headers: { Cookie: cookie }, body: up });
+  assert.equal((await req('GET', '/blog/' + slug)).status, 404);
+});

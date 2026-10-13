@@ -122,6 +122,23 @@ CREATE TABLE IF NOT EXISTS faqs (
   sort INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS posts (
+  id INTEGER PRIMARY KEY,
+  slug TEXT UNIQUE NOT NULL,
+  title TEXT NOT NULL,
+  excerpt TEXT NOT NULL DEFAULT '',
+  body TEXT NOT NULL DEFAULT '',          -- Markdown
+  cover TEXT NOT NULL DEFAULT '',         -- uploaded file name
+  meta_title TEXT NOT NULL DEFAULT '',
+  meta_description TEXT NOT NULL DEFAULT '',
+  tags TEXT NOT NULL DEFAULT '',          -- comma separated
+  status TEXT NOT NULL DEFAULT 'draft',   -- draft | published
+  published_at TEXT NOT NULL DEFAULT '',
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_posts_pub ON posts(status, published_at);
+
 CREATE TABLE IF NOT EXISTS admin_sessions (
   token TEXT PRIMARY KEY,
   expires_at INTEGER NOT NULL
@@ -154,6 +171,8 @@ const DEFAULT_SETTINGS = {
   head_code: '',              // tracking tags injected into <head> on public pages
   conversion_code: '',        // injected only on the confirmation page
   admin_password_hash: '',
+  site_url: '',               // e.g. https://northbaykayak.in — used for sitemap & share links; empty = from request
+  stat_guests: '',            // optional "happy paddlers" counter on the landing page, e.g. 3000
 };
 
 function getSettings() {
@@ -198,5 +217,15 @@ function seed() {
   db.prepare("INSERT INTO promo_codes(code, percent_off) VALUES('WELCOME10', 10)").run();
 }
 seed();
+
+// Starter blog articles, created once as drafts so the owner can check the
+// facts and add photos before publishing.
+function seedPosts() {
+  if (db.prepare("SELECT value FROM settings WHERE key = 'posts_seeded'").get()) return;
+  const ins = db.prepare('INSERT OR IGNORE INTO posts(slug, title, excerpt, body, meta_description, tags) VALUES(?,?,?,?,?,?)');
+  for (const p of require('./starter-posts')) ins.run(p.slug, p.title, p.excerpt, p.body, p.excerpt, p.tags);
+  db.prepare("INSERT INTO settings(key, value) VALUES('posts_seeded', '1')").run();
+}
+seedPosts();
 
 module.exports = { db, getSettings, setSetting, DEFAULT_SETTINGS, DATA_DIR, UPLOAD_DIR };

@@ -34,6 +34,7 @@
     opts = opts || {};
     loadConfig().then(function () {
       if (!cfg.sessions.length) return alert('Bookings are not open right now. Please message us on WhatsApp.');
+      if (opts.session && !cfg.sessions.some(function (s) { return s.slug === opts.session; })) opts.session = undefined;
       var keep = S && !opts.session && !opts.date;
       if (!keep) {
         S = {

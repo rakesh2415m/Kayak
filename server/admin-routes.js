@@ -387,6 +387,88 @@ router.delete('/reviews/:id', (req, res) => {
   res.json({ ok: true });
 });
 
+// ---------- blog ----------
+const mdown = require('./markdown');
+
+function postFields(b, existing) {
+  const title = str(b.title, 160);
+  let slug = mdown.slugify(b.slug || title).slice(0, 80);
+  const status = b.status === 'published' ? 'published' : 'draft';
+  let publishedAt = existing?.published_at || '';
+  if (b.published_at !== undefined && String(b.published_at).trim()) {
+    const d = new Date(String(b.published_at).replace(' ', 'T'));
+    if (!isNaN(d)) publishedAt = d.toISOString().slice(0, 19).replace('T', ' ');
+  }
+  if (status === 'published' && !publishedAt) publishedAt = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  return {
+    title, slug, status, published_at: publishedAt,
+    excerpt: str(b.excerpt, 400), body: String(b.body ?? '').slice(0, 100000),
+    meta_title: str(b.meta_title, 120), meta_description: str(b.meta_description, 200),
+    tags: str(b.tags, 200),
+  };
+}
+
+router.get('/posts', (req, res) => {
+  res.json({ posts: db.prepare('SELECT id, slug, title, excerpt, cover, status, published_at, updated_at, length(body) AS chars FROM posts ORDER BY CASE status WHEN \'draft\' THEN 0 ELSE 1 END, published_at DESC, id DESC').all() });
+});
+router.get('/posts/:id', (req, res) => {
+  const p = db.prepare('SELECT * FROM posts WHERE id = ?').get(int(req.params.id));
+  if (!p) return bad(res, 'Not found', 404);
+  res.json({ post: p });
+});
+
+const blogUpload = media.uploader({ maxMB: 15, allowVideo: false });
+
+async function savePost(req, res, existing) {
+  const f = postFields(req.body || {}, existing);
+  if (!f.title) { media.discard(req.file); return bad(res, 'Title is required'); }
+  if (!f.slug) { media.discard(req.file); return bad(res, 'Add a title or link name'); }
+  const clash = db.prepare('SELECT id FROM posts WHERE slug = ? AND id != ?').get(f.slug, existing?.id || 0);
+  if (clash) { media.discard(req.file); return bad(res, 'Another article already uses that link name'); }
+  let cover = existing?.cover || '';
+  if (req.file) {
+    const stored = await media.store(req.file, { maxWidth: 1800 });
+    if (cover) media.remove(cover);
+    cover = stored.file;
+  } else if (req.body?.remove_cover === 'true' && cover) { media.remove(cover); cover = ''; }
+  const cols = { ...f, cover };
+  if (existing) {
+    db.prepare(`UPDATE posts SET ${Object.keys(cols).map(k => `${k} = ?`).join(', ')}, updated_at = datetime('now') WHERE id = ?`).run(...Object.values(cols), existing.id);
+    return res.json({ post: db.prepare('SELECT * FROM posts WHERE id = ?').get(existing.id) });
+  }
+  const r = db.prepare(`INSERT INTO posts(${Object.keys(cols).join(',')}) VALUES(${Object.keys(cols).map(() => '?').join(',')})`).run(...Object.values(cols));
+  res.json({ post: db.prepare('SELECT * FROM posts WHERE id = ?').get(Number(r.lastInsertRowid)) });
+}
+
+router.post('/posts', blogUpload.single('cover'), (req, res) => savePost(req, res, null));
+router.put('/posts/:id', blogUpload.single('cover'), (req, res) => {
+  const p = db.prepare('SELECT * FROM posts WHERE id = ?').get(int(req.params.id));
+  if (!p) { media.discard(req.file); return bad(res, 'Not found', 404); }
+  return savePost(req, res, p);
+});
+router.delete('/posts/:id', (req, res) => {
+  const p = db.prepare('SELECT * FROM posts WHERE id = ?').get(int(req.params.id));
+  if (p) { db.prepare('DELETE FROM posts WHERE id = ?').run(p.id); media.remove(p.cover); }
+  res.json({ ok: true });
+});
+
+// Images inserted inside an article body.
+router.post('/posts-image', blogUpload.single('image'), async (req, res) => {
+  if (!req.file) return bad(res, 'Choose an image');
+  const { file } = await media.store(req.file, { maxWidth: 1600 });
+  res.json({ url: '/uploads/' + file });
+});
+
+// Full-page preview of an unsaved/unpublished article.
+router.post('/posts-preview', (req, res) => {
+  const views = require('./views');
+  const b = req.body || {};
+  const existing = b.id ? db.prepare('SELECT * FROM posts WHERE id = ?').get(int(b.id)) : null;
+  const post = { id: existing?.id || 0, ...postFields(b, existing), cover: existing?.cover || '', created_at: existing?.created_at || new Date().toISOString(), updated_at: new Date().toISOString() };
+  if (!post.published_at) post.published_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  res.type('html').send(views.blogPost(`${req.protocol}://${req.get('host')}`, post, { preview: true }));
+});
+
 // ---------- FAQ ----------
 router.get('/faqs', (req, res) => res.json({ faqs: db.prepare('SELECT * FROM faqs ORDER BY sort, id').all() }));
 router.post('/faqs', (req, res) => {
