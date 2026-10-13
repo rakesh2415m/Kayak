@@ -28,7 +28,9 @@
   }
 
   // ---------- reveal on scroll ----------
-  var reveals = $$('.reveal');
+  // Cards in a sideways carousel never scroll into view vertically, so show them straight away.
+  $$('.exp-list.compact .reveal').forEach(function (el) { el.classList.add('in'); });
+  var reveals = $$('.reveal:not(.in)');
   if (!hasIO || reduce) reveals.forEach(function (el) { el.classList.add('in'); });
   else {
     var io = new IntersectionObserver(function (entries) {

@@ -267,7 +267,7 @@ ${header(st, { home: true })}
     <h2>Pick your <em>paddle.</em></h2>
     <p class="muted">All guided, all beginner-friendly. Prices are per person.</p>
   </div>
-  <div class="exp-list">
+  <div class="exp-list${sessions.length > 3 ? ' compact' : ''}" id="expList">
     ${sessions.map((s, i) => `<article class="exp" id="${e(s.slug)}">
       <div class="exp-media reveal reveal-zoom"><div class="exp-img parallax" data-speed=".08" data-max=".1">${sessionMedia(s, i)}</div>
         ${s.badge ? `<span class="badge">${e(s.badge)}</span>` : ''}<span class="exp-num">0${i + 1}</span></div>
@@ -281,6 +281,7 @@ ${header(st, { home: true })}
       </div>
     </article>`).join('')}
   </div>
+  ${sessions.length > 3 ? `<div class="exp-swipe" aria-hidden="true">← Swipe to see all ${sessions.length} sessions →</div>` : ''}
   ${sessions.length > 1 ? `<div class="compare reveal" role="region" aria-label="Compare sessions" tabindex="0">
     <table>
       <thead><tr><th></th>${sessions.map(s => `<th>${e(s.name)}</th>`).join('')}</tr></thead>
