@@ -20,7 +20,7 @@ Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking W
 
 Logos, icons and favicons live in `public/brand/` (from the Tebishiro logo pack; see `public/brand/README.md` for colours and font).
 `public/brand/web/` holds web-ready versions made from the pack: the header logo without the small tagline, and see-through versions of the dark logos for use over photos.
-Site colours (deep sea blue, coral sun, lagoon teal, sand white) and the Jost font follow the brand guide.
+Site colours follow the brand guide (deep sea blue, coral sun, lagoon teal, sand white). The site keeps its own fonts (Fraunces + Plus Jakarta Sans) rather than the pack's Jost.
 
 ## Run it
 

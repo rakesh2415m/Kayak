@@ -111,7 +111,7 @@ ${canonical ? `<meta property="og:url" content="${e(canonical)}">` : ''}
 <link rel="alternate" type="application/rss+xml" title="${e(st.brand_name)} blog" href="/blog/rss.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/css/tokens.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 ${jsonLd.map(j => `<script type="application/ld+json">${json(j)}</script>`).join('\n')}
 ${extraHead}

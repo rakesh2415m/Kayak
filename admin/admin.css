@@ -1,5 +1,5 @@
 /* Admin panel — desktop sidebar layout, collapses to a phone layout for use at the jetty. */
-/* Tebishiro brand colours + Jost (see public/brand/README.md) */
+/* Tebishiro brand colours (see public/brand/README.md) */
 :root {
   --terracotta-500: #E07A5F; --terracotta-600: #c8644a; --terracotta-700: #a84e37; --terracotta-400: #e8977f; --terracotta-100: #f8e2db; --terracotta-50: #fcf1ed;
   --charcoal-900: #0E3B43; --charcoal-800: #0E3B43; --charcoal-600: #3E5A5F; --charcoal-500: #4d686d; --charcoal-400: #667f83;
@@ -7,7 +7,6 @@
   --sage-100: #e4f3f0; --sage-300: #bfe3dd; --sage-600: #2A9D8F; --sage-700: #1c6b62;
   --text-strong: #0E3B43; --text-body: #173f46; --text-muted: #5b7377;
   --accent: #E07A5F; --accent-hover: #c8644a; --focus-ring: #2A9D8F;
-  --font-display: 'Jost', system-ui, sans-serif; --font-sans: 'Jost', system-ui, sans-serif;
 }
 :root { --side-w: 220px; }
 body { background: var(--sand-200); font-size: 14px; }
@@ -31,7 +30,6 @@ a { color: var(--accent); }
 .side { background: var(--sand-50); border-right: 1px solid var(--border-default); padding: 18px 12px; display: flex; flex-direction: column; gap: 4px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
 .side .logo { padding: 4px 10px 16px; }
 .side .logo img { height: 30px; width: auto; display: block; }
-h1, h2 { text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
 .side .logo small { display: block; font-family: var(--font-sans); letter-spacing: .18em; font-size: 10px; font-weight: 700; color: var(--text-muted); margin-top: 2px; }
 .side a.nav { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius-sm); color: var(--text-body); text-decoration: none; font-weight: 600; }
 .side a.nav:hover { background: var(--sand-200); }

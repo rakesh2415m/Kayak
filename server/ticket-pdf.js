@@ -45,8 +45,8 @@ function ticketPdf(b, { url, reportTime }) {
   try { doc.image(LOGO_PNG, x - 4, 18, { height: 30 }); }
   catch { doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(11).text(st.brand_name, x, 24); }
   doc.fillColor(C.lagoon).font('Helvetica-Bold').fontSize(8.5).text(b.session_name.toUpperCase(), x, 48, { characterSpacing: 1.6 });
-  doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(22).text(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), x, 62, { width: stubX - x - 20 });
-  doc.fillColor(C.coral).font('Helvetica-Bold').fontSize(22).text(b.time_label, x, doc.y);
+  doc.fillColor(C.ink).font('Times-Bold').fontSize(22).text(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), x, 62, { width: stubX - x - 20 });
+  doc.fillColor(C.coral).font('Times-Bold').fontSize(22).text(b.time_label, x, doc.y);
 
   const s = statusOf(b);
   const sy = doc.y + 8;
@@ -87,7 +87,7 @@ function ticketPdf(b, { url, reportTime }) {
     if (qr.modules.get(r, c)) doc.rect(qx + c * cell, qy + r * cell, cell + 0.2, cell + 0.2).fill(C.ink);
   }
   const cx = stubX, cw = W - stubX;
-  doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(20).text(b.code, cx, qy + box + 22, { width: cw, align: 'center', characterSpacing: 1 });
+  doc.fillColor(C.ink).font('Times-Bold').fontSize(20).text(b.code, cx, qy + box + 22, { width: cw, align: 'center', characterSpacing: 1 });
   doc.fillColor(C.muted).font('Helvetica').fontSize(8.5).text('Show this at the jetty', cx, doc.y + 2, { width: cw, align: 'center' });
   if (b.balance > 0 && b.status === 'confirmed') doc.fillColor(C.coral).font('Helvetica-Bold').fontSize(10).text(`Due: ${rs(b.balance)}`, cx, doc.y + 6, { width: cw, align: 'center' });
   if (st.phone) doc.fillColor(C.muted).font('Helvetica').fontSize(7.5).text(`Help: ${st.phone}`, cx, H - 24, { width: cw, align: 'center' });
