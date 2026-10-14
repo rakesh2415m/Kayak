@@ -1,4 +1,4 @@
-// North Bay Kayaking — booking website + admin panel.
+// Tebishiro Kayaking — booking website + admin panel.
 const path = require('node:path');
 const express = require('express');
 const { UPLOAD_DIR } = require('./db');

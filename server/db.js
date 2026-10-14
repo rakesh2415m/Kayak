@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS admin_sessions (
 
 // ---------- settings ----------
 const DEFAULT_SETTINGS = {
-  brand_name: 'North Bay Kayaking',
+  brand_name: 'Tebishiro Kayaking',
   hero_overline: 'North Bay Island · Andaman',
   hero_title: 'Paddle the clearest water in the Andamans.',
   hero_subtitle: 'Guided kayak trips through mangroves and over coral. No experience needed.',

@@ -26,6 +26,7 @@ const ICONS = {
   clock: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 7v5l3 2"/></svg>',
   logo: '<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 20c3 0 3-2.6 6.5-2.6S13 20 16 20s3-2.6 6.5-2.6S26 20 29 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M8 13.5 24 9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M22.5 7.3 26 10.6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
 };
+const BRAND_SHARE_IMAGE = '/brand/png/tebishiro-kayaking.png';
 const TRUST_ICONS = [ICONS.shield, ICONS.wave, ICONS.sun, ICONS.camera];
 
 function photosFor(placement) {
@@ -48,28 +49,28 @@ function waves(fill, { flip = false, cls = '' } = {}) {
 <g class="wave-par"><use href="#${id}" x="48" y="0" fill="${fill}" opacity=".25"/><use href="#${id}" x="48" y="3" fill="${fill}" opacity=".45"/><use href="#${id}" x="48" y="5" fill="${fill}" opacity=".7"/><use href="#${id}" x="48" y="7" fill="${fill}"/></g></svg></div>`;
 }
 
-const PALM = (x, y, s = 1, flip = 1) => `<g transform="translate(${x} ${y}) scale(${s * flip} ${s})" fill="#062433"><path d="M0 0c4-40 10-80 26-118l6 2C18-78 12-40 8 0z"/><path d="M30-118c-26-12-52-6-70 12 22-8 42-8 60 0zM30-118c-14-22-38-30-62-26 20 6 36 16 50 32zM30-118c10-24 34-36 60-34-20 8-36 20-48 38zM30-118c24-10 52-4 70 14-22-6-44-6-62 2zM30-118c4 24-6 46-24 60 8-20 12-40 10-58z"/></g>`;
+const PALM = (x, y, s = 1, flip = 1) => `<g transform="translate(${x} ${y}) scale(${s * flip} ${s})" fill="#0E3B43"><path d="M0 0c4-40 10-80 26-118l6 2C18-78 12-40 8 0z"/><path d="M30-118c-26-12-52-6-70 12 22-8 42-8 60 0zM30-118c-14-22-38-30-62-26 20 6 36 16 50 32zM30-118c10-24 34-36 60-34-20 8-36 20-48 38zM30-118c24-10 52-4 70 14-22-6-44-6-62 2zM30-118c4 24-6 46-24 60 8-20 12-40 10-58z"/></g>`;
 
 // Illustrated, animated sea scene used until the owner uploads a hero photo/video.
 function heroScene() {
   return `<svg class="hero-scene" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <defs>
-  <linearGradient id="hsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#062a3a"/><stop offset=".45" stop-color="#1b6f86"/><stop offset=".72" stop-color="#f6a982"/><stop offset=".8" stop-color="#ffd79a"/></linearGradient>
-  <linearGradient id="hsSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2aa6ad"/><stop offset=".35" stop-color="#0f6f86"/><stop offset="1" stop-color="#05293a"/></linearGradient>
+  <linearGradient id="hsSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0E3B43"/><stop offset=".45" stop-color="#1f6670"/><stop offset=".72" stop-color="#f6a982"/><stop offset=".8" stop-color="#ffd79a"/></linearGradient>
+  <linearGradient id="hsSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A9D8F"/><stop offset=".35" stop-color="#1f6670"/><stop offset="1" stop-color="#0a3239"/></linearGradient>
   <radialGradient id="hsGlow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffe2a6" stop-opacity=".9"/><stop offset="1" stop-color="#ffb070" stop-opacity="0"/></radialGradient>
 </defs>
 <rect width="1440" height="900" fill="url(#hsSky)"/>
 <circle class="sun-glow" cx="1030" cy="560" r="260" fill="url(#hsGlow)"/>
 <circle cx="1030" cy="560" r="62" fill="#ffe1a0"/>
 <g class="clouds" fill="#fff" opacity=".18"><ellipse cx="300" cy="230" rx="140" ry="18"/><ellipse cx="380" cy="215" rx="90" ry="14"/><ellipse cx="1180" cy="300" rx="160" ry="16"/></g>
-<path d="M0 585c120-40 220-58 330-40 70 12 110 30 160 40H0z" fill="#0a3446"/>
-<path d="M820 585c60-26 140-40 230-30 90 10 170 22 390 30z" fill="#0d3c4f"/>
+<path d="M0 585c120-40 220-58 330-40 70 12 110 30 160 40H0z" fill="#0b333a"/>
+<path d="M820 585c60-26 140-40 230-30 90 10 170 22 390 30z" fill="#0e3a41"/>
 ${PALM(110, 560, .9)}${PALM(200, 566, .7, -1)}${PALM(1250, 580, .6)}
 <rect y="585" width="1440" height="315" fill="url(#hsSea)"/>
 <g class="glints" fill="#ffe7b8">${Array.from({ length: 14 }, (_, i) => `<rect x="${980 + (i % 5) * 22 - (i * 7) % 30}" y="${600 + i * 16}" width="${90 - i * 4}" height="3" rx="1.5" style="--d:${(i % 5) * .4}s"/>`).join('')}</g>
 <g class="kayak-group">
-  <g class="kayak k1" transform="translate(560 690)"><ellipse cx="0" cy="0" rx="74" ry="9" fill="#ff6b4a"/><ellipse cx="0" cy="-3" rx="60" ry="4" fill="#ff9b7f"/><circle cx="-12" cy="-30" r="9" fill="#062433"/><path d="M-20-22h16v18h-16z" fill="#ffc857"/><path class="paddle" d="M-62-44 38 6" stroke="#062433" stroke-width="4" stroke-linecap="round"/></g>
-  <g class="kayak k2" transform="translate(840 742) scale(.75)"><ellipse cx="0" cy="0" rx="74" ry="9" fill="#ffc857"/><ellipse cx="0" cy="-3" rx="60" ry="4" fill="#ffe08f"/><circle cx="10" cy="-30" r="9" fill="#062433"/><path d="M2-22h16v18H2z" fill="#14b8b8"/><path class="paddle" d="M-40 8 60-42" stroke="#062433" stroke-width="4" stroke-linecap="round"/></g>
+  <g class="kayak k1" transform="translate(560 690)"><ellipse cx="0" cy="0" rx="74" ry="9" fill="#E07A5F"/><ellipse cx="0" cy="-3" rx="60" ry="4" fill="#eb9f8a"/><circle cx="-12" cy="-30" r="9" fill="#0E3B43"/><path d="M-20-22h16v18h-16z" fill="#f2c27b"/><path class="paddle" d="M-62-44 38 6" stroke="#0E3B43" stroke-width="4" stroke-linecap="round"/></g>
+  <g class="kayak k2" transform="translate(840 742) scale(.75)"><ellipse cx="0" cy="0" rx="74" ry="9" fill="#f2c27b"/><ellipse cx="0" cy="-3" rx="60" ry="4" fill="#f6d6a3"/><circle cx="10" cy="-30" r="9" fill="#0E3B43"/><path d="M2-22h16v18H2z" fill="#2A9D8F"/><path class="paddle" d="M-40 8 60-42" stroke="#0E3B43" stroke-width="4" stroke-linecap="round"/></g>
 </g>
 </svg>`;
 }
@@ -77,14 +78,16 @@ ${PALM(110, 560, .9)}${PALM(200, 566, .7, -1)}${PALM(1250, 580, .6)}
 // Fallback artwork for session cards without a photo, picked by session type.
 function sessionScene(s, i) {
   const kind = /sun/i.test(s.slug + s.name) ? 'sunrise' : /glass|coral|reef/i.test(s.slug + s.name) ? 'reef' : /mangrove/i.test(s.slug + s.name) ? 'mangrove' : ['mangrove', 'sunrise', 'reef'][i % 3];
-  if (kind === 'sunrise') return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="ss${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2a5a"/><stop offset=".5" stop-color="#ff8a5c"/><stop offset=".62" stop-color="#ffd18a"/><stop offset=".62" stop-color="#ff9b6a"/><stop offset="1" stop-color="#0e4a63"/></linearGradient></defs><rect width="600" height="450" fill="url(#ss${i})"/><circle class="pulse-sun" cx="300" cy="280" r="58" fill="#ffe3a3"/><g class="glints" fill="#ffe3a3">${[0, 1, 2, 3, 4, 5].map(j => `<rect x="${250 - j * 6}" y="${295 + j * 18}" width="${100 + j * 12}" height="4" rx="2" style="--d:${j * .3}s"/>`).join('')}</g><g class="kayak k1" transform="translate(180 380)"><ellipse rx="60" ry="7" fill="#062433"/><circle cx="-6" cy="-24" r="7" fill="#062433"/><path class="paddle" d="M-50-36 30 6" stroke="#062433" stroke-width="3.5" stroke-linecap="round"/></g></svg>`;
-  if (kind === 'reef') return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sr${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2fd4cc"/><stop offset="1" stop-color="#0a4a66"/></linearGradient></defs><rect width="600" height="450" fill="url(#sr${i})"/><g class="rays" fill="#fff" opacity=".12"><path d="M80 0h40L60 450H20z"/><path d="M260 0h30l-40 450h-40z"/><path d="M440 0h50l-20 450h-50z"/></g><g fill="#ff6b4a"><path d="M90 450c0-60 10-90 30-120-6 40 6 70 20 120z"/><circle cx="160" cy="420" r="30" fill="#ffc857"/><path d="M420 450c-10-70 10-110 40-140-10 50 0 90 10 140z" fill="#ff8fab"/><circle cx="500" cy="430" r="36" fill="#ff6b4a"/></g><g class="fish f1" fill="#ffc857"><path d="M0 0c16-12 36-12 50 0-14 12-34 12-50 0z"/><path d="M50 0l14-10v20z"/></g><g class="fish f2" fill="#fff"><path d="M0 0c12-9 28-9 38 0-10 9-26 9-38 0z"/><path d="M38 0l10-7v14z"/></g><g class="bubbles-svg" fill="none" stroke="#fff" stroke-opacity=".6"><circle cx="300" cy="300" r="6"/><circle cx="320" cy="250" r="4"/><circle cx="290" cy="200" r="3"/></g></svg>`;
-  return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sm${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe9d4"/><stop offset=".55" stop-color="#5fb39a"/><stop offset=".55" stop-color="#1f7a74"/><stop offset="1" stop-color="#0b3f47"/></linearGradient></defs><rect width="600" height="450" fill="url(#sm${i})"/><g fill="#174f3a"><ellipse cx="80" cy="200" rx="140" ry="90"/><ellipse cx="540" cy="190" rx="150" ry="100"/><ellipse cx="300" cy="150" rx="90" ry="60" opacity=".6"/></g><g stroke="#174f3a" stroke-width="6" fill="none" stroke-linecap="round"><path d="M30 250c10 20 0 40-10 60M60 250c0 30 20 40 10 70M110 255c-10 25 10 40 0 60M500 250c10 25-5 45-15 60M540 250c0 30 15 45 5 70M580 250c-10 25 5 40-5 60"/></g><g class="glints" fill="#d8fff2">${[0, 1, 2, 3].map(j => `<rect x="${200 + j * 40}" y="${280 + j * 30}" width="${80}" height="3" rx="1.5" style="--d:${j * .5}s"/>`).join('')}</g><g class="kayak k1" transform="translate(300 360)"><ellipse rx="70" ry="8" fill="#ff6b4a"/><circle cx="-8" cy="-26" r="8" fill="#062433"/><circle cx="20" cy="-24" r="7" fill="#062433"/><path class="paddle" d="M-60-40 40 6" stroke="#062433" stroke-width="3.5" stroke-linecap="round"/></g></svg>`;
+  if (kind === 'sunrise') return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="ss${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2a5a"/><stop offset=".5" stop-color="#ff8a5c"/><stop offset=".62" stop-color="#ffd18a"/><stop offset=".62" stop-color="#ff9b6a"/><stop offset="1" stop-color="#0e4a63"/></linearGradient></defs><rect width="600" height="450" fill="url(#ss${i})"/><circle class="pulse-sun" cx="300" cy="280" r="58" fill="#ffe3a3"/><g class="glints" fill="#ffe3a3">${[0, 1, 2, 3, 4, 5].map(j => `<rect x="${250 - j * 6}" y="${295 + j * 18}" width="${100 + j * 12}" height="4" rx="2" style="--d:${j * .3}s"/>`).join('')}</g><g class="kayak k1" transform="translate(180 380)"><ellipse rx="60" ry="7" fill="#0E3B43"/><circle cx="-6" cy="-24" r="7" fill="#0E3B43"/><path class="paddle" d="M-50-36 30 6" stroke="#0E3B43" stroke-width="3.5" stroke-linecap="round"/></g></svg>`;
+  if (kind === 'reef') return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sr${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7CC6BC"/><stop offset="1" stop-color="#0a4a66"/></linearGradient></defs><rect width="600" height="450" fill="url(#sr${i})"/><g class="rays" fill="#fff" opacity=".12"><path d="M80 0h40L60 450H20z"/><path d="M260 0h30l-40 450h-40z"/><path d="M440 0h50l-20 450h-50z"/></g><g fill="#E07A5F"><path d="M90 450c0-60 10-90 30-120-6 40 6 70 20 120z"/><circle cx="160" cy="420" r="30" fill="#f2c27b"/><path d="M420 450c-10-70 10-110 40-140-10 50 0 90 10 140z" fill="#ff8fab"/><circle cx="500" cy="430" r="36" fill="#E07A5F"/></g><g class="fish f1" fill="#f2c27b"><path d="M0 0c16-12 36-12 50 0-14 12-34 12-50 0z"/><path d="M50 0l14-10v20z"/></g><g class="fish f2" fill="#fff"><path d="M0 0c12-9 28-9 38 0-10 9-26 9-38 0z"/><path d="M38 0l10-7v14z"/></g><g class="bubbles-svg" fill="none" stroke="#fff" stroke-opacity=".6"><circle cx="300" cy="300" r="6"/><circle cx="320" cy="250" r="4"/><circle cx="290" cy="200" r="3"/></g></svg>`;
+  return `<svg class="scene" viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sm${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe9d4"/><stop offset=".55" stop-color="#5fb39a"/><stop offset=".55" stop-color="#1f7a74"/><stop offset="1" stop-color="#0b3f47"/></linearGradient></defs><rect width="600" height="450" fill="url(#sm${i})"/><g fill="#174f3a"><ellipse cx="80" cy="200" rx="140" ry="90"/><ellipse cx="540" cy="190" rx="150" ry="100"/><ellipse cx="300" cy="150" rx="90" ry="60" opacity=".6"/></g><g stroke="#174f3a" stroke-width="6" fill="none" stroke-linecap="round"><path d="M30 250c10 20 0 40-10 60M60 250c0 30 20 40 10 70M110 255c-10 25 10 40 0 60M500 250c10 25-5 45-15 60M540 250c0 30 15 45 5 70M580 250c-10 25 5 40-5 60"/></g><g class="glints" fill="#d8fff2">${[0, 1, 2, 3].map(j => `<rect x="${200 + j * 40}" y="${280 + j * 30}" width="${80}" height="3" rx="1.5" style="--d:${j * .5}s"/>`).join('')}</g><g class="kayak k1" transform="translate(300 360)"><ellipse rx="70" ry="8" fill="#E07A5F"/><circle cx="-8" cy="-26" r="8" fill="#0E3B43"/><circle cx="20" cy="-24" r="7" fill="#0E3B43"/><path class="paddle" d="M-60-40 40 6" stroke="#0E3B43" stroke-width="3.5" stroke-linecap="round"/></g></svg>`;
 }
 
 // ---------- page chrome ----------
 
 function layout({ title, description = '', body, st, bodyClass = '', extraHead = '', canonical = '', image = '', jsonLd = [], type = 'website' }) {
+  const origin = canonical ? new URL(canonical).origin : '';
+  if (!image) image = origin + BRAND_SHARE_IMAGE;
   return `<!doctype html>
 <html lang="en-IN">
 <head>
@@ -98,14 +101,17 @@ ${canonical ? `<link rel="canonical" href="${e(canonical)}">` : ''}
 <meta property="og:description" content="${e(description)}">
 <meta property="og:site_name" content="${e(st.brand_name)}">
 ${canonical ? `<meta property="og:url" content="${e(canonical)}">` : ''}
-${image ? `<meta property="og:image" content="${e(image)}"><meta name="twitter:card" content="summary_large_image">` : ''}
-<meta name="theme-color" content="#062a3a">
+<meta property="og:image" content="${e(image)}"><meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0E3B43">
 <script>document.documentElement.classList.add('js')</script>
-<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/brand/favicon/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/brand/favicon/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/brand/favicon/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="alternate" type="application/rss+xml" title="${e(st.brand_name)} blog" href="/blog/rss.xml">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="/css/tokens.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
 <link rel="stylesheet" href="/css/site.css">
 ${jsonLd.map(j => `<script type="application/ld+json">${json(j)}</script>`).join('\n')}
 ${extraHead}
@@ -121,7 +127,7 @@ ${body}
 function header(st, { home = false } = {}) {
   const h = home ? '' : '/';
   return `<header class="site-nav ${home ? 'on-hero' : 'solid'}" id="siteNav">
-  <a class="logo" href="/">${ICONS.logo}<span>${e(st.brand_name)}</span></a>
+  <a class="logo" href="/" aria-label="${e(st.brand_name)} home"><img class="logo-dark" src="/brand/web/header-dark.svg" alt="Tebishiro" width="215" height="34"><img class="logo-light" src="/brand/web/header-light.svg" alt="Tebishiro" width="215" height="34"></a>
   <nav class="nav-links" id="navLinks" aria-label="Main">
     <a href="${h}#sessions">Sessions</a><a href="${h}#how">How it works</a><a href="${h}#reviews">Reviews</a><a href="/blog">Blog</a><a href="${h}#faq">FAQ</a><a href="/my-booking" class="nav-my">My booking</a>
   </nav>
@@ -135,9 +141,9 @@ function header(st, { home = false } = {}) {
 
 function footer(st) {
   return `<footer class="site-footer">
-  ${waves('#04141f', { cls: 'waves-footer' })}
+  ${waves('#082a30', { cls: 'waves-footer' })}
   <div class="container footer-inner">
-    <div class="footer-brand"><a class="logo" href="/">${ICONS.logo}<span>${e(st.brand_name)}</span></a><p>${e(st.hero_overline)}</p><p class="small">${e(st.meeting_point)}</p></div>
+    <div class="footer-brand"><a class="footer-logo" href="/" aria-label="${e(st.brand_name)} home"><img src="/brand/web/stacked-on-dark.svg" alt="Tebishiro" width="771" height="375" loading="lazy"></a><p>${e(st.hero_overline)}</p><p class="small">${e(st.meeting_point)}</p></div>
     <div><h4>Explore</h4><a href="/my-booking">My booking</a><a href="/#sessions">Sessions</a><a href="/#gallery">Gallery</a><a href="/#reviews">Reviews</a><a href="/blog">Blog</a><a href="/#faq">FAQ</a></div>
     <div><h4>Contact</h4><a href="tel:${e(st.phone.replace(/\s/g, ''))}">${e(st.phone)}</a>${st.email ? `<a href="mailto:${e(st.email)}">${e(st.email)}</a>` : ''}<a href="${e(waLink(st.whatsapp))}" target="_blank" rel="noopener">WhatsApp</a><a href="/review">Leave a review</a></div>
   </div>
@@ -202,7 +208,7 @@ function landing(base = '') {
   const jsonLd = [
     {
       '@context': 'https://schema.org', '@type': ['LocalBusiness', 'TouristAttraction'], name: st.brand_name,
-      description: st.hero_subtitle, url: base + '/', telephone: st.phone, ...(imageUrl ? { image: imageUrl } : {}),
+      description: st.hero_subtitle, url: base + '/', telephone: st.phone, image: imageUrl || base + BRAND_SHARE_IMAGE, logo: base + '/brand/png/tebishiro-logo-horizontal.png',
       address: { '@type': 'PostalAddress', streetAddress: st.meeting_point, addressLocality: 'Port Blair', addressRegion: 'Andaman and Nicobar Islands', addressCountry: 'IN' },
       priceRange: minPrice ? `₹${minPrice}+` : undefined,
       ...(rating.count ? { aggregateRating: { '@type': 'AggregateRating', ratingValue: rating.avg, reviewCount: rating.count } } : {}),
@@ -221,7 +227,7 @@ ${header(st, { home: true })}
   <div class="bubbles" aria-hidden="true">${bubbles}</div>
   <div class="hero-inner container">
     <div class="hero-copy">
-      <div class="pill-overline">${ICONS.pin}${e(st.hero_overline)}</div>
+      <img class="hero-logo" src="/brand/web/kayaking-on-dark.svg" alt="Tebishiro" width="771" height="390" fetchpriority="high">
       <h1 class="hero-title" aria-label="${e(st.hero_title)}">${words.map((w, i) => `<span class="w" aria-hidden="true" style="--i:${i}"><span>${e(w)}</span></span>`).join(' ')}</h1>
       <p class="lead">${e(st.hero_subtitle)}</p>
       <div class="hero-ctas">
@@ -229,6 +235,7 @@ ${header(st, { home: true })}
         <a class="btn btn-glass btn-lg" href="${e(waLink(st.whatsapp, 'Hi! I want to book kayaking at North Bay.'))}" target="_blank" rel="noopener">${ICONS.wa} Ask on WhatsApp</a>
       </div>
       <div class="chip-row hero-chips">
+        <span class="chip chip-glass">${ICONS.pin}${e(st.hero_overline)}</span>
         ${rating.text ? `<span class="chip chip-glass">${e(rating.text)}</span>` : ''}
         <span class="chip chip-glass">Life jackets &amp; guide</span>
         <span class="chip chip-glass">No experience needed</span>
@@ -251,7 +258,7 @@ ${header(st, { home: true })}
     </form>
   </div>
   <a class="scroll-cue" href="#sessions" aria-label="Scroll to sessions"><span></span></a>
-  ${waves('#fffaf2')}
+  ${waves('#F7F5F0')}
 </section>
 
 <section class="marquee" aria-label="Why book with us"><div class="marquee-track">
@@ -298,7 +305,7 @@ ${header(st, { home: true })}
 </section>
 
 <section class="deep" id="how">
-  ${waves('#062a3a', { flip: true })}
+  ${waves('#0E3B43', { flip: true })}
   <div class="light-rays" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="container deep-inner">
     <div class="section-head reveal on-dark">
@@ -311,7 +318,7 @@ ${header(st, { home: true })}
     </div>
     <div class="included reveal"><span class="overline">Included</span>${lines(st.included).map(l => `<span class="chip chip-glass">${ICONS.check}${e(l)}</span>`).join('')}</div>
   </div>
-  ${waves('#fffaf2')}
+  ${waves('#F7F5F0')}
 </section>
 
 ${gallery.length ? `<section class="section container" id="gallery">
@@ -358,7 +365,7 @@ ${faqs.length ? `<section class="section container narrow" id="faq">
 </section>` : ''}
 
 <section class="cta-band">
-  ${waves('#062a3a', { flip: true })}
+  ${waves('#0E3B43', { flip: true })}
   <div class="caustics" aria-hidden="true"></div>
   <div class="container cta-inner reveal">
     <h2>Ready to get on <em>the water?</em></h2>
@@ -404,7 +411,7 @@ function pageHero(st, { overline, title, sub, cover }) {
     <h1>${title}</h1>
     ${sub ? `<p class="lead">${sub}</p>` : ''}
   </div>
-  ${waves('#fffaf2')}
+  ${waves('#F7F5F0')}
 </section>`;
 }
 
@@ -522,19 +529,19 @@ function confirmation(b, { qr = '' } = {}) {
 ${header(st)}
 <main>
 <section class="confirm-top">
-  ${ok && !past ? '<div class="confetti" hidden aria-hidden="true">' + Array.from({ length: 24 }, (_, i) => `<i style="--x:${(i * 41) % 100}%;--d:${(i % 6) * .15}s;--c:${['#ff6b4a', '#ffc857', '#2fd4cc', '#fff'][i % 4]}"></i>`).join('') + '</div>' : ''}
+  ${ok && !past ? '<div class="confetti" hidden aria-hidden="true">' + Array.from({ length: 24 }, (_, i) => `<i style="--x:${(i * 41) % 100}%;--d:${(i % 6) * .15}s;--c:${['#E07A5F', '#f2c27b', '#7CC6BC', '#fff'][i % 4]}"></i>`).join('') + '</div>' : ''}
   <div class="container narrow confirm-hero">
     <div class="tick ${ok ? '' : 'tick-pending'}">${ok ? ICONS.check : b.status === 'cancelled' ? '✕' : '…'}</div>
     <h1>${title}</h1>
     <p>${ok && !past ? 'This page is your ticket. Download it, or open it any time from <b>My booking</b>.' : b.status === 'pending' ? 'We have not received your payment yet. If money was debited, message us on WhatsApp.' : past ? 'We hope you loved it. A quick review helps other travellers find us.' : ''}</p>
     ${b.status !== 'pending' ? `<a class="btn btn-glass hero-dl" href="/booking/${e(b.code)}/ticket.pdf?t=${e(b.token)}" download>${ICONS.download} Download ticket (PDF)</a>` : ''}
   </div>
-  ${waves('#fffaf2')}
+  ${waves('#F7F5F0')}
 </section>
 <div class="confirm container narrow">
   <article class="ticket ${b.status === 'cancelled' ? 'is-cancelled' : ''}" id="ticket" aria-label="Booking ticket">
     <div class="ticket-main">
-      <div class="ticket-brand">${ICONS.logo}<span>${e(st.brand_name)}</span></div>
+      <div class="ticket-brand"><img src="/brand/web/header-light.svg" alt="Tebishiro" width="190" height="30"></div>
       <div class="overline">${e(b.session_name)}</div>
       <h2>${e(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long' }))}<br><span>${e(b.time_label)}</span></h2>
       <div class="ticket-status ${status.cls}">${e(status.text)}</div>
@@ -674,8 +681,8 @@ function ics(b) {
   const end = new Date(start.getTime() + dur * 3600e3);
   const f = (d) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
   const esc = (x) => String(x).replace(/[\\;,]/g, m => '\\' + m).replace(/\n/g, '\\n');
-  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//NorthBayKayak//EN', 'BEGIN:VEVENT',
-    `UID:${b.code}@northbay-kayak`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(start)}`, `DTEND:${f(end)}`,
+  return ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//TebishiroKayaking//EN', 'BEGIN:VEVENT',
+    `UID:${b.code}@tebishiro-kayaking`, `DTSTAMP:${f(new Date())}`, `DTSTART:${f(start)}`, `DTEND:${f(end)}`,
     `SUMMARY:${esc(`${s?.name || 'Kayaking'} · ${st.brand_name}`)}`,
     `LOCATION:${esc(st.meeting_point)}`,
     `DESCRIPTION:${esc(`Booking ${b.code}. Report by ${reportTime(b, s)}. Balance at jetty: ${B.inr(b.balance)}.`)}`,

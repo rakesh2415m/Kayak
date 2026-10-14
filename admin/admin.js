@@ -88,7 +88,7 @@
   // ---------- auth ----------
   function showLogin() {
     app.innerHTML = '<div class="login"><form class="card" id="loginForm"><div class="muted small" style="letter-spacing:.18em;font-weight:800">ADMIN</div>' +
-      '<h1>North Bay Kayaking</h1><label class="f">Password<input class="input" type="password" name="password" autocomplete="current-password" required autofocus></label>' +
+      '<img src="/brand/web/header-light.svg" alt="Tebishiro" style="height:34px;width:auto;align-self:flex-start"><label class="f">Password<input class="input" type="password" name="password" autocomplete="current-password" required autofocus></label>' +
       '<button class="btn primary block" type="submit">Log in</button><div class="err" role="alert"></div></form></div>';
     $('#loginForm').onsubmit = function (e) {
       e.preventDefault();
@@ -107,13 +107,13 @@
     var banner = ctx.stats && ctx.stats.paymentMode === 'simulated'
       ? '<div class="mode-banner">Test mode: payments are simulated. <a href="#/settings">Add Razorpay keys</a> to take real payments.</div>' : '';
     app.innerHTML =
-      '<div class="shell"><aside class="side" id="side"><div class="logo">' + esc(ctx.settings ? ctx.settings.brand_name : 'Kayak') + '<small>ADMIN</small></div>' +
+      '<div class="shell"><aside class="side" id="side"><div class="logo"><img src="/brand/web/header-light.svg" alt="Tebishiro"><small>KAYAKING · ADMIN</small></div>' +
       NAV.map(function (n) {
         return '<a class="nav' + (n[0] === active ? ' on' : '') + '" href="#/' + n[0] + '"' + (n[0] === active ? ' aria-current="page"' : '') + '>' + esc(n[1]) +
           (n[0] === 'reviews' && pending ? '<span class="count">' + pending + '</span>' : '') + '</a>';
       }).join('') +
       '<div class="foot"><a href="/" target="_blank" rel="noopener">View website ↗</a><button type="button" data-logout>Log out</button></div></aside>' +
-      '<div class="main"><div class="topbar"><span class="logo">ADMIN</span><button type="button" class="btn ghost" data-menu aria-label="Menu" aria-controls="side">☰</button></div>' +
+      '<div class="main"><div class="topbar"><span class="logo"><img src="/brand/web/header-light.svg" alt="Tebishiro" style="height:26px;width:auto;vertical-align:middle"></span><button type="button" class="btn ghost" data-menu aria-label="Menu" aria-controls="side">☰</button></div>' +
       banner + (title ? '<div class="page-head"><h1>' + esc(title) + '</h1>' + (actionsHtml || '') + '</div>' : '') +
       '<div class="view" id="view"></div></div></div>';
     $('[data-menu]').onclick = function () { $('#side').classList.toggle('open'); };

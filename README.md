@@ -1,4 +1,4 @@
-# North Bay Kayaking — booking website + admin panel
+# Tebishiro Kayaking — booking website + admin panel
 
 Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking Wireframes.dc.html`, design brief: `chats/chat1.md`, original handoff notes: `project/HANDOFF-README.md`).
 
@@ -15,6 +15,12 @@ Built from the Claude Design handoff in `project/` (wireframes: `Kayak Booking W
   - **Photos:** upload, place on the site, show or hide, drag to reorder.
   - **Reviews:** pending, approve, feature, add your own.
   - **FAQ & text, Settings, and Jetty check-in:** the jetty screen is the phone view.
+
+## Brand
+
+Logos, icons and favicons live in `public/brand/` (from the Tebishiro logo pack; see `public/brand/README.md` for colours and font).
+`public/brand/web/` holds web-ready versions made from the pack: the header logo without the small tagline, and see-through versions of the dark logos for use over photos.
+Site colours (deep sea blue, coral sun, lagoon teal, sand white) and the Jost font follow the brand guide.
 
 ## Run it
 

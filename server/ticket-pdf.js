@@ -4,11 +4,14 @@ const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
 const { getSettings } = require('./db');
 const B = require('./booking');
+const path = require('node:path');
+
+const LOGO_PNG = path.join(__dirname, '..', 'public', 'brand', 'png', 'tebishiro-logo-horizontal.png');
 
 // The built-in PDF fonts have no ₹ glyph, so amounts are written as "Rs".
 const rs = (n) => 'Rs ' + Math.round(n).toLocaleString('en-IN');
 
-const C = { ink: '#062a3a', muted: '#58717c', lagoon: '#14b8b8', coral: '#ff6b4a', sand: '#fbf3e6', line: '#cdbb9c' };
+const C = { ink: '#0E3B43', muted: '#3E5A5F', lagoon: '#2A9D8F', coral: '#E07A5F', sand: '#F7F5F0', line: '#c6bca8' };
 
 function statusOf(b) {
   if (b.status === 'cancelled') return { text: b.refunded ? `CANCELLED · ${rs(b.refunded)} refunded` : 'CANCELLED', bg: '#fde6e1', fg: '#b3361d' };
@@ -27,7 +30,7 @@ function ticketPdf(b, { url, reportTime }) {
   // card + gradient strip
   doc.rect(0, 0, W, H).fill('#ffffff');
   const g = doc.linearGradient(0, 0, W, 0);
-  g.stop(0, '#2fd4cc').stop(0.55, C.coral).stop(1, '#ffc857');
+  g.stop(0, '#7CC6BC').stop(0.55, C.coral).stop(1, '#f2c27b');
   doc.rect(0, 0, W, 8).fill(g);
 
   const stubX = 410;
@@ -38,14 +41,12 @@ function ticketPdf(b, { url, reportTime }) {
 
   // left: details
   const x = 28;
-  // wave + paddle logo
-  doc.save().lineWidth(2.2).lineCap('round').strokeColor(C.coral)
-    .moveTo(x, 34).bezierCurveTo(x + 3, 34, x + 3, 31, x + 6.5, 31).bezierCurveTo(x + 10, 31, x + 10, 34, x + 13, 34).bezierCurveTo(x + 16, 34, x + 16, 31, x + 19.5, 31).bezierCurveTo(x + 23, 31, x + 23, 34, x + 26, 34).stroke()
-    .moveTo(x + 5, 27).lineTo(x + 21, 23).stroke().restore();
-  doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(11).text(st.brand_name, x + 34, 24);
+  // Tebishiro logo (from public/brand)
+  try { doc.image(LOGO_PNG, x - 4, 18, { height: 30 }); }
+  catch { doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(11).text(st.brand_name, x, 24); }
   doc.fillColor(C.lagoon).font('Helvetica-Bold').fontSize(8.5).text(b.session_name.toUpperCase(), x, 48, { characterSpacing: 1.6 });
-  doc.fillColor(C.ink).font('Times-Bold').fontSize(22).text(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), x, 62, { width: stubX - x - 20 });
-  doc.fillColor(C.coral).font('Times-Bold').fontSize(22).text(b.time_label, x, doc.y);
+  doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(22).text(B.fmtDate(b.date, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), x, 62, { width: stubX - x - 20 });
+  doc.fillColor(C.coral).font('Helvetica-Bold').fontSize(22).text(b.time_label, x, doc.y);
 
   const s = statusOf(b);
   const sy = doc.y + 8;
@@ -86,7 +87,7 @@ function ticketPdf(b, { url, reportTime }) {
     if (qr.modules.get(r, c)) doc.rect(qx + c * cell, qy + r * cell, cell + 0.2, cell + 0.2).fill(C.ink);
   }
   const cx = stubX, cw = W - stubX;
-  doc.fillColor(C.ink).font('Times-Bold').fontSize(20).text(b.code, cx, qy + box + 22, { width: cw, align: 'center', characterSpacing: 1 });
+  doc.fillColor(C.ink).font('Helvetica-Bold').fontSize(20).text(b.code, cx, qy + box + 22, { width: cw, align: 'center', characterSpacing: 1 });
   doc.fillColor(C.muted).font('Helvetica').fontSize(8.5).text('Show this at the jetty', cx, doc.y + 2, { width: cw, align: 'center' });
   if (b.balance > 0 && b.status === 'confirmed') doc.fillColor(C.coral).font('Helvetica-Bold').fontSize(10).text(`Due: ${rs(b.balance)}`, cx, doc.y + 6, { width: cw, align: 'center' });
   if (st.phone) doc.fillColor(C.muted).font('Helvetica').fontSize(7.5).text(`Help: ${st.phone}`, cx, H - 24, { width: cw, align: 'center' });
